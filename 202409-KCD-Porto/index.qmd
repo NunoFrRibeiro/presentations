@@ -15,7 +15,7 @@ description: |
 
   Learn by example by demonstrating how I personally do CI/CD in my own blog and how it can be integrated in Argo Workflows and Argo Events running in a kubernetes cluster.
 categories: [cicd, dagger]
-image: 
+##image: 
 format:
   revealjs:
     css: custom.css
@@ -23,6 +23,6 @@ format:
     title-slide-no-content: true
     title-slide-attributes:
       data-background-color: "#030525"
-      data-background-image: 
+      ##data-background-image: 
       data-background-transition: slide
 ---
