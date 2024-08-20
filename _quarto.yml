@@ -1,0 +1,15 @@
+project:
+  type: website
+
+date-format: iso
+author: "Nuno Ribeiro"
+
+format:
+  revealjs:
+    transition: slide
+    controls: true
+    controls-layout: bottom-right
+    center: true
+    navigation-mode: vertical
+    template-partials:
+      - resources/templates/revealjs/title-slide.html

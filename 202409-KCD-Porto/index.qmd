@@ -1,0 +1,28 @@
+---
+title: "No more push and pray in CI/CD? Where can I sign up?"
+date: "2024-09-28"
+event: "KCD Porto"
+eventUrl: https://kcdporto.github.io/
+description: |
+  CI/CD can become a hard and laborious task.
+  You start small but in a few iterations it can become hard to track version drift, upgrades, new tools... And that's when push and pray starts to show up.
+
+  Also, YAML isn't here to help.
+
+  But it shouldn't be this hard.
+
+  In this session we will talk how we can improve our CI/CD pipelines by using dagger and leveraging the use of it's SDK's, containerization, abstraction and readability to write pipelines as code and show how they run the same independently of running locally or in the chosen CI/CD tool.
+
+  Learn by example by demonstrating how I personally do CI/CD in my own blog and how it can be integrated in Argo Workflows and Argo Events running in a kubernetes cluster.
+categories: [cicd, dagger]
+image: 
+format:
+  revealjs:
+    css: custom.css
+    navigation-mode: vertical
+    title-slide-no-content: true
+    title-slide-attributes:
+      data-background-color: "#030525"
+      data-background-image: 
+      data-background-transition: slide
+---

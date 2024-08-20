@@ -1,0 +1,149 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "cargo@1.80.1": {
+      "last_modified": "2024-08-18T12:44:29Z",
+      "resolved": "github:NixOS/nixpkgs/ff1c2669bbb4d0dd9e62cc94f0968cfa652ceec1#cargo",
+      "source": "devbox-search",
+      "version": "1.80.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/byfa9wirgg1gby158kayipmwkhih1szv-cargo-1.80.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/byfa9wirgg1gby158kayipmwkhih1szv-cargo-1.80.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/aclhcix9jnn3611mkzmmyr1zw3g16xhw-cargo-1.80.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/aclhcix9jnn3611mkzmmyr1zw3g16xhw-cargo-1.80.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xnkapz710jpqqc8zvhdk5bsiw9qan386-cargo-1.80.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/xnkapz710jpqqc8zvhdk5bsiw9qan386-cargo-1.80.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jav6m86f97cpj1l5d3waqhq1yz837pxp-cargo-1.80.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jav6m86f97cpj1l5d3waqhq1yz837pxp-cargo-1.80.1"
+        }
+      }
+    },
+    "netlify-cli@12.2.4": {
+      "last_modified": "2024-08-18T12:44:29Z",
+      "resolved": "github:NixOS/nixpkgs/ff1c2669bbb4d0dd9e62cc94f0968cfa652ceec1#netlify-cli",
+      "source": "devbox-search",
+      "version": "12.2.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/b6v0g47rr3l9hy9qpsy373xgzpz2qc8m-netlify-cli-12.2.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/b6v0g47rr3l9hy9qpsy373xgzpz2qc8m-netlify-cli-12.2.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kl7im8k6x5cjdwznpk1mxhyaic7bmb85-netlify-cli-12.2.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kl7im8k6x5cjdwznpk1mxhyaic7bmb85-netlify-cli-12.2.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3wbp89a8rl1ak6n0pbnh01153366ic44-netlify-cli-12.2.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/3wbp89a8rl1ak6n0pbnh01153366ic44-netlify-cli-12.2.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bw8kfynrizjsj1zv21nhxinlxxamyw63-netlify-cli-12.2.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/bw8kfynrizjsj1zv21nhxinlxxamyw63-netlify-cli-12.2.4"
+        }
+      }
+    },
+    "quarto@1.5.56": {
+      "last_modified": "2024-08-18T12:44:29Z",
+      "resolved": "github:NixOS/nixpkgs/ff1c2669bbb4d0dd9e62cc94f0968cfa652ceec1#quarto",
+      "source": "devbox-search",
+      "version": "1.5.56",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/a2hgg56nrmwrsa6gchz8hsv2d1ijb21a-quarto-1.5.56",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/a2hgg56nrmwrsa6gchz8hsv2d1ijb21a-quarto-1.5.56"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bl0xrmf714vvqr613v7m55ikgar6abvg-quarto-1.5.56",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/bl0xrmf714vvqr613v7m55ikgar6abvg-quarto-1.5.56"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/v1dvsp6qb6v4cygdfw0xh760q693f0rz-quarto-1.5.56",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/v1dvsp6qb6v4cygdfw0xh760q693f0rz-quarto-1.5.56"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/scz8q90f6ydnlnr5lfwiswbmdrq37166-quarto-1.5.56",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/scz8q90f6ydnlnr5lfwiswbmdrq37166-quarto-1.5.56"
+        }
+      }
+    }
+  }
+}

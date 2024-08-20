@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
+  "packages": [
+    "quarto@1.5.56",
+    "netlify-cli@12.2.4",
+    "cargo@1.80.1"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "versions": [
+        "quarto --version",
+        "netlify version"
+      ]
+    }
+  }
+}
