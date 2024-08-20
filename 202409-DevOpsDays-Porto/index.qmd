@@ -20,7 +20,7 @@ description: |
   WHY?
   If it works on your machine it will work on CI.
 categories: [cicd, dagger]
-image: 
+##  image: 
 format:
   revealjs:
     css: custom.css
@@ -28,7 +28,7 @@ format:
     title-slide-no-content: true
     title-slide-attributes:
       data-background-color: "#030525"
-      data-background-image: 
+      ##data-background-image: 
       data-background-transition: slide
 ---
 

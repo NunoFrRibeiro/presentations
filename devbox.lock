@@ -1,54 +1,6 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "cargo@1.80.1": {
-      "last_modified": "2024-08-18T12:44:29Z",
-      "resolved": "github:NixOS/nixpkgs/ff1c2669bbb4d0dd9e62cc94f0968cfa652ceec1#cargo",
-      "source": "devbox-search",
-      "version": "1.80.1",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/byfa9wirgg1gby158kayipmwkhih1szv-cargo-1.80.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/byfa9wirgg1gby158kayipmwkhih1szv-cargo-1.80.1"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/aclhcix9jnn3611mkzmmyr1zw3g16xhw-cargo-1.80.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/aclhcix9jnn3611mkzmmyr1zw3g16xhw-cargo-1.80.1"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/xnkapz710jpqqc8zvhdk5bsiw9qan386-cargo-1.80.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/xnkapz710jpqqc8zvhdk5bsiw9qan386-cargo-1.80.1"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/jav6m86f97cpj1l5d3waqhq1yz837pxp-cargo-1.80.1",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/jav6m86f97cpj1l5d3waqhq1yz837pxp-cargo-1.80.1"
-        }
-      }
-    },
     "netlify-cli@12.2.4": {
       "last_modified": "2024-08-18T12:44:29Z",
       "resolved": "github:NixOS/nixpkgs/ff1c2669bbb4d0dd9e62cc94f0968cfa652ceec1#netlify-cli",
