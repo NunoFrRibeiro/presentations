@@ -1,9 +1,58 @@
 [
   {
+    "objectID": "202409-DevOpsDays-Porto/index.html#and-now",
+    "href": "202409-DevOpsDays-Porto/index.html#and-now",
+    "title": "",
+    "section": "and now?",
+    "text": "and now?\nI work as a DevOps Engineer @ Cleva Solutions\nbut, only for today I won’t be talking about insurance\n\n\nCleva is a powerhouse for the development of insurance software with 40 years of experience"
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#ready-to-commit-that-code",
+    "href": "202409-DevOpsDays-Porto/index.html#ready-to-commit-that-code",
+    "title": "",
+    "section": "Ready to commit that code?",
+    "text": "Ready to commit that code?\n\nname: CI\n\non:\n  push:\n    branches: [main]\n\njobs:\n  ci:\n    name: ci\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n      - name: Setup Go\n        uses: actions/setup-go@v5\n        with:\n          go-version: '1.21.x'\n      - name: Install dependencies\n        run: go get .\n      - name: Build\n        run: go build -v ./...\n      - name: Test with the Go CLI\n        run: go test"
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#days-of-code-commits-later",
+    "href": "202409-DevOpsDays-Porto/index.html#days-of-code-commits-later",
+    "title": "",
+    "section": "365 days of code commits later",
+    "text": "365 days of code commits later\n\n # Foobar pipeline\n# Include the Common CI pipeline parameters.\ninclude:\n  - project: 'foo/bar/foobarproject/cicdtemplate'\n    file: '/Common.gitlab-ci.yml'\n  #- /force-app/ui-tests/pipeline.yml\n\nstages:\n  - build-metadata-package\n  - run-js-tests\n  - validate-package\n  - deploy-package\n  - run-unit-tests\n  - run-api-tests\n  - run-ui-tests\n  - integration\n\n####################################################\n# Builds the Metadata Package, builds the Package\n# files and Destructive changes\n####################################################\nbuild-metadata-package:\n  stage: build-metadata-package\n  except:\n    variables:\n      - $SCRATCH_DISABLED\n      - $TEST_DISABLED\n  only:\n    variables:\n      - $FORCE_DEVELOP_RUN\n      - $FORCE_MASTER_RUN\n      - $FORCE_VALIDATE_MASTER\n      - $FORCE_RUN\n      - $FORCE_DEPLOY\n      - $CI_COMMIT_REF_NAME == 'test-integration'\n      - $CI_COMMIT_REF_NAME == 'develop'\n      - $CI_COMMIT_REF_NAME == 'master'\n      - $CI_COMMIT_REF_NAME == 'release/uat'\n  allow_failure: false\n  script:\n    - build_diff_files\n  artifacts:\n    paths:\n      - deploySource\n      - deploy\n  environment:\n    name: foobarproject/$CI_COMMIT_REF_SLUG\n\n# Merges release-branch to develop\n####################################################\nintegration-vp-to-develop:\n  stage: integration\n  only:\n    variables:\n      - $CI_COMMIT_REF_NAME == 'release/uat'\n  script:\n    - merge_branches origin/release/uat develop\n  environment:\n    name: foobarproject/$CI_COMMIT_REF_SLUG\n\n####################################################\n# Merges release-branch to develop\n####################################################\nintegration-develop-to-test:\n  stage: integration\n  only:\n    variables:\n      - $CI_COMMIT_REF_NAME == 'develop'\n  script:\n    - merge_branches origin/develop test-integration\n  environment:\n    name: foobarproject/$CI_COMMIT_REF_SLUG\n\n####################################################\n# Deploys the source Package\n####################################################\ndeploy-package:\n  stage: deploy-package\n  script:\n    - authenticate $FOOBAR_USERNAME $CLIENT_ID \"ORG\" $LOGIN_URL\n    - deploy_baz $FOOBAR_USERNAME \"60\"\n  rules:\n    - if: '$DEPLOY_DISABLED == \"1\"'\n      when: never\n    - if: '$TEST_DISABLED == \"1\"'\n      when: never\n    - if: '$CI_COMMIT_REF_NAME == \"test-integration\"'\n      when: on_success\n    - if: '$CI_COMMIT_REF_NAME == \"develop\"'\n      when: on_success\n    - if: '$CI_COMMIT_REF_NAME == \"release/uat\"'\n      when: on_success\n    - if: '$FORCE_RUN == \"1\"'\n      when: on_success\n    - if: '$FORCE_DEVELOP_RUN == \"1\"'\n      when: on_success\n    - if: '$FORCE_DEPLOY == \"1\"'\n      when: on_success\n\n####################################################"
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#push-and-pray",
+    "href": "202409-DevOpsDays-Porto/index.html#push-and-pray",
+    "title": "",
+    "section": "",
+    "text": "(🙏 🙏)\n\n\n\nwe complain\nand we start pushing and praying"
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#dagger-engine",
+    "href": "202409-DevOpsDays-Porto/index.html#dagger-engine",
+    "title": "",
+    "section": "",
+    "text": "To use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.\nDagger Functions let you encapsulate common operations or workflows into discrete units with clear inputs and outputs.\nFunctions are the fundamental unit of computing in Dagger\nUsual pipeline operations, such as “pull a container image”, “copy a file”, “forward a TCP port”, are exposed as callable Dagger Functions\nInstead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call."
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#dagger-platform",
+    "href": "202409-DevOpsDays-Porto/index.html#dagger-platform",
+    "title": "",
+    "section": "",
+    "text": "the most common way to use Dagger Functions is via the Dagger CLI.\nThe Dagger CLI is a easy to use tool that can be used interactively from a terminal or non-interactively from a shell script or a CI configuration.\nDagger Functions can also be called from other Dagger Functions.\nFunctions are packaged, shared and reused using modules.\nThe Daggerverse is a free service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them."
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#you-can-check-out-the-demo-source-code",
+    "href": "202409-DevOpsDays-Porto/index.html#you-can-check-out-the-demo-source-code",
+    "title": "",
+    "section": "You can check out the demo source code @",
+    "text": "You can check out the demo source code @\ngithub.com/NunoFrRibeiro/personal-blog"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Presentations",
     "section": "",
-    "text": "No more push and pray in CI/CD? Where can I sign up?\n\n\n\n\n\n\ncicd\n\n\ndagger\n\n\n\n\n\n\n2024-09-28\n\n\nKCD Porto\n\n\n\n\n\n\n\nWell, it works on my machine! How we can avoid push and pray by using Dagger\n\n\n\n\n\n\ncicd\n\n\ndagger\n\n\n\n\n\n\n2024-09-24\n\n\nDevopsDays Porto\n\n\n\n\n\n\nNo matching items"
+    "text": "No more push and pray in CI/CD? Where can I sign up?\n\n\n\n\n\n\ncicd\n\n\ndagger\n\n\n\n\n\n\n2024-09-28\n\n\nKCD Porto\n\n\n\n\n\n\n\n\n\n\n\n\nWell, it works on my machine! How we can avoid push and pray by using Dagger\n\n\n\n\n\n\ncicd\n\n\ndagger\n\n\n\n\n\n\n2024-09-24\n\n\nDevopsDays Porto\n\n\n\n\n\n\nNo matching items"
   }
 ]

@@ -23,12 +23,360 @@ categories: [cicd, dagger]
 ##  image: 
 format:
   revealjs:
-    css: custom.css
+    # data-background-image: ./assets/
+    # css: custom.css
     navigation-mode: vertical
     title-slide-no-content: true
     title-slide-attributes:
-      data-background-color: "#030525"
-      ##data-background-image: 
+      # data-background-color: "#ADD8E6"
+      # data-background-image: 
       data-background-transition: slide
 ---
 
+# whoami
+
+__*[NunoFrRibeiro](https://github.com/NunoFrRibeiro) or Nuno Ribeiro*__
+
+and for the better part of the last decade I was a Civil Engineer
+
+---
+
+::: {.absolute top=0 left=0}
+so I went from this
+:::
+
+<br>
+
+![](./assets/from_this.jpeg){.r-stretch fig-align="center"}
+
+---
+
+::: {.absolute top=0 left=0}
+to this
+:::
+
+<br>
+
+![](./assets/thinking_meme.jpg){.r-stretch fig-align="center"}
+
+<br>
+
+::: footer
+(expect a few memes)
+:::
+
+## and now?
+
+I work as a DevOps Engineer @ [Cleva Solutions](https://cleva-solutions.com/)
+
+but, __*only for today*__ I won't be talking about insurance
+
+::: {.notes}
+- Cleva is a powerhouse for the development of insurance software with 40 years of experience
+:::
+
+# The state of CI/CD
+
+YAML is a pain
+
+::: {.fragment}
+and you know it 😬
+:::
+
+::: {.notes}
+- how did I find
+:::
+
+## Ready to commit that code?
+
+::: {.r-stack}
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+      - name: Install dependencies
+        run: go get .
+      - name: Build
+        run: go build -v ./...
+      - name: Test with the Go CLI
+        run: go test
+```
+
+![](./assets/all-green.jpg){.fragment}
+:::
+
+## 365 days of code commits later
+
+
+::: {.r-stack}
+```yaml
+ # Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    variables:
+      - $SCRATCH_DISABLED
+      - $TEST_DISABLED
+  only:
+    variables:
+      - $FORCE_DEVELOP_RUN
+      - $FORCE_MASTER_RUN
+      - $FORCE_VALIDATE_MASTER
+      - $FORCE_RUN
+      - $FORCE_DEPLOY
+      - $CI_COMMIT_REF_NAME == 'test-integration'
+      - $CI_COMMIT_REF_NAME == 'develop'
+      - $CI_COMMIT_REF_NAME == 'master'
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  allow_failure: false
+  script:
+    - build_diff_files
+  artifacts:
+    paths:
+      - deploySource
+      - deploy
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+# Merges release-branch to develop
+####################################################
+integration-vp-to-develop:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  script:
+    - merge_branches origin/release/uat develop
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Merges release-branch to develop
+####################################################
+integration-develop-to-test:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'develop'
+  script:
+    - merge_branches origin/develop test-integration
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Deploys the source Package
+####################################################
+deploy-package:
+  stage: deploy-package
+  script:
+    - authenticate $FOOBAR_USERNAME $CLIENT_ID "ORG" $LOGIN_URL
+    - deploy_baz $FOOBAR_USERNAME "60"
+  rules:
+    - if: '$DEPLOY_DISABLED == "1"'
+      when: never
+    - if: '$TEST_DISABLED == "1"'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "test-integration"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "develop"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "release/uat"'
+      when: on_success
+    - if: '$FORCE_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEVELOP_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEPLOY == "1"'
+      when: on_success
+
+####################################################
+
+```
+
+![](./assets/all-red.jpg){.fragment}
+:::
+
+## {#push-and-pray background-color="black" background-transition="fade"}
+
+::: {.center}
+![](./assets/pushandpray.jpg)
+:::
+
+::: footer
+(🙏 🙏)
+:::
+
+::: {.notes}
+- we complain
+- and we start pushing and praying
+:::
+
+# Enter The {background-color="black"}
+
+::: {.r-stack}
+![](./assets/dagger.avif)
+:::
+
+---
+
+<h3>How does it solve this problem?</h3>
+
+::: {.fragment .fade-up}
+<h3>By running your pipelines in containers</h3>
+:::
+
+## {#dagger-engine background-color="black" background-image="assets/Dagger-Engine.avif" background-size="55%" background-transition="fade"}
+
+::: {.notes}
+- To use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.
+- Dagger Functions let you encapsulate common operations or workflows into discrete units with clear inputs and outputs.
+- Functions are the fundamental unit of computing in Dagger
+- Usual pipeline operations, such as "pull a container image", "copy a file", "forward a TCP port", are exposed as callable Dagger Functions
+- Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.
+:::
+
+## {#dagger-platform background-color="black" background-image="assets/Dagger-platform.avif" background-size="99%" background-transition="fade"}
+
+::: {.notes}
+- the most common way to use Dagger Functions is via the Dagger CLI.
+- The Dagger CLI is a easy to use tool that can be used interactively from a terminal or non-interactively from a shell script or a CI configuration.
+- Dagger Functions can also be called from other Dagger Functions.
+- Functions are packaged, shared and reused using modules.
+- The Daggerverse is a free service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.
+:::
+
+---
+
+```go
+type MyModule struct{}
+
+// Build and publish Docker container
+func (m *MyModule) Build(
+	ctx context.Context,
+	// source code location
+	// can be local directory or remote Git repository
+	src *dagger.Directory,
+) (string, error) {
+	// build app
+	builder := dag.Container().
+		From("golang:latest").
+		WithDirectory("/src", src).
+		WithWorkdir("/src").
+		WithEnvVariable("CGO_ENABLED", "0").
+		WithExec([]string{"go", "build", "-o", "myapp"})
+
+	// publish binary on alpine base
+	prodImage := dag.Container().
+		From("alpine").
+		WithFile("/bin/myapp", builder.File("/src/myapp")).
+		WithEntrypoint([]string{"/bin/myapp"})
+
+	// publish to ttl.sh registry
+	addr, err := prodImage.Publish(ctx, "ttl.sh/myapp:latest")
+	if err != nil {
+		return "", err
+	}
+
+	return addr, nil
+}
+```
+
+::: {.notes}
+- dagger supports multiple programming languages via native-language SDKs
+:::
+
+---
+
+```typescript
+import { dag, Container, Directory, object, func } from "@dagger.io/dagger"
+
+@object()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class Ci {
+
+  /**
+   * example usage: "dagger call ci --source ."
+   */
+  @func()
+  async ci(source: Directory): Promise<string> {
+    // Use Golang module to configure project
+    var goProject = dag.golang().withProject(source)
+
+    // Run Go tests using Golang module
+    await goProject.test()
+
+    // Get container with built binaries using Golang module
+    var image = await goProject.buildContainer()
+
+    // Push image to a registry using core Dagger API
+    var ref = await image.publish("ttl.sh/demoapp:1h")
+
+    // Scan image for vulnerabilities using Trivy module
+    return dag.trivy().scanContainer(dag.container().from(ref))
+  }
+}
+```
+
+::: {.notes}
+- enabling us to build our pipelines in the same language as our application and benefit from the ecosystem's existing tooling and best practices
+:::
+
+##
+
+# {#demo .nostretch background-color="black" background-transition="slide"}
+
+::: {.r-fit-text}
+**DEMO TIME**
+:::
+
+::: footer
+(🙏 to the demo gods!)
+:::
+
+## You can check out the demo source code @
+
+[github.com/NunoFrRibeiro/personal-blog](https://github.com/NunoFrRibeiro/personal-blog/)
+
+# Obrigado!
+
+<br>
+
+[@diasapensar](https://x.com/diasapensar)
+
+[In/nunofrribeiro](https://www.linkedin.com/in/nunofrribeiro)
+
+[https://blog.nfribeiro.com](https://blog.nfribeiro.com)

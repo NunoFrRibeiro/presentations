@@ -2,7 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
   "packages": [
     "quarto@1.5.56",
-    "netlify-cli@12.2.4"
+    "netlify-cli@12.2.4",
+    "github:dagger/nix/818205c13580978e1637089c0fd9c8ef9f773899#packages.x86_64-linux.dagger",
   ],
   "shell": {
     "init_hook": [
