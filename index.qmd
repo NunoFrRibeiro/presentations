@@ -5,10 +5,10 @@ listing:
     - .
   sort: "date desc"
   type: default
-  fields: [date, title, subtitle, categories, event]
+  fields: [date, title, categories, event, image]
   categories: true
   sort-ui: false
-  filter-ui: false
+  filter-ui: [date, title]
 page-layout: full
 title-block-banner: true
 format:

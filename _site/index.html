@@ -78,9 +78,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-subtitle','listing-categories','listing-event',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-categories','listing-event','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -159,8 +159,19 @@ window.Quarto = {
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="listing-actions-group">
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
 <div class="list quarto-listing-default">
 <div class="quarto-post image-right" data-index="0" data-categories="cicd,dagger" data-listing-date-sort="1727478000000" data-listing-file-modified-sort="1724195905977" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="thumbnail">
+<p><a href="./202409-KCD-Porto/index.html" class="no-external"></a></p><a href="./202409-KCD-Porto/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./202409-KCD-Porto/index.html" class="no-external"></a></p>
+</div>
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./202409-KCD-Porto/index.html" class="no-external">No more push and pray in CI/CD? Where can I sign up?</a>
@@ -188,7 +199,12 @@ KCD Porto
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="cicd,dagger" data-listing-date-sort="1727132400000" data-listing-file-modified-sort="1724195905977" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="1" data-categories="cicd,dagger" data-listing-date-sort="1727132400000" data-listing-file-modified-sort="1726536787367" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1112">
+<div class="thumbnail">
+<p><a href="./202409-DevOpsDays-Porto/index.html" class="no-external"></a></p><a href="./202409-DevOpsDays-Porto/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./202409-DevOpsDays-Porto/index.html" class="no-external"></a></p>
+</div>
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./202409-DevOpsDays-Porto/index.html" class="no-external">Well, it works on my machine! How we can avoid push and pray by using Dagger</a>
