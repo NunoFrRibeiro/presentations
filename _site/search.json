@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "202409-DevOpsDays-Porto/index.html#and-now",
-    "href": "202409-DevOpsDays-Porto/index.html#and-now",
-    "title": "",
-    "section": "and now?",
-    "text": "and now?\nI work as a DevOps Engineer @ Cleva Solutions\nbut, only for today I won’t be talking about insurance\n\n\nCleva is a powerhouse for the development of insurance software with 40 years of experience"
-  },
-  {
     "objectID": "202409-DevOpsDays-Porto/index.html#ready-to-commit-that-code",
     "href": "202409-DevOpsDays-Porto/index.html#ready-to-commit-that-code",
     "title": "",
@@ -28,18 +21,25 @@
     "text": "(🙏 🙏)\n\n\n\nwe complain\nand we start pushing and praying"
   },
   {
-    "objectID": "202409-DevOpsDays-Porto/index.html#dagger-engine",
-    "href": "202409-DevOpsDays-Porto/index.html#dagger-engine",
-    "title": "",
-    "section": "",
-    "text": "To use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.\nDagger Functions let you encapsulate common operations or workflows into discrete units with clear inputs and outputs.\nFunctions are the fundamental unit of computing in Dagger\nUsual pipeline operations, such as “pull a container image”, “copy a file”, “forward a TCP port”, are exposed as callable Dagger Functions\nInstead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call."
-  },
-  {
     "objectID": "202409-DevOpsDays-Porto/index.html#dagger-platform",
     "href": "202409-DevOpsDays-Porto/index.html#dagger-platform",
     "title": "",
     "section": "",
-    "text": "the most common way to use Dagger Functions is via the Dagger CLI.\nThe Dagger CLI is a easy to use tool that can be used interactively from a terminal or non-interactively from a shell script or a CI configuration.\nDagger Functions can also be called from other Dagger Functions.\nFunctions are packaged, shared and reused using modules.\nThe Daggerverse is a free service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them."
+    "text": "Encapsulate all your project’s tasks and workflows into Functions, written in your programming language of choice.\nRun your Functions from the command line, your language interpreter, or a custom HTTP client.\nPackage your Functions into a module, to reuse in your next project or share with the community on Daggerverse.\nThe Daggerverse is a service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.\nSearch for existing modules, and import them into yours\nmodules can reuse each other’s Functions - regardless of which language they are written in\nthe most common way to use Dagger Functions is via the Dagger CLI.\nThe Dagger CLI is a easy to use tool that can be used interactively from a terminal or via a shell script or a CI configuration.\nDagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching."
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#dagger-engine",
+    "href": "202409-DevOpsDays-Porto/index.html#dagger-engine",
+    "title": "",
+    "section": "",
+    "text": "and as I said, to use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.\nFunctions let you encapsulate common operations or workflows into units with clear inputs and outputs.\nthey are the the fundamental unit of computing in Dagger\nUsual pipeline operations, such as “pull a container image”, “copy a file”, “forward a TCP port”, are exposed as callable Dagger Functions\nInstead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call."
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#tired-of-yamlgroovy.",
+    "href": "202409-DevOpsDays-Porto/index.html#tired-of-yamlgroovy.",
+    "title": "",
+    "section": "Tired of YAML/GROOVY/….",
+    "text": "Tired of YAML/GROOVY/….\n\nLet’s look at some Code (not yaml)"
   },
   {
     "objectID": "202409-DevOpsDays-Porto/index.html#you-can-check-out-the-demo-source-code",
@@ -53,6 +53,6 @@
     "href": "index.html",
     "title": "Presentations",
     "section": "",
-    "text": "No more push and pray in CI/CD? Where can I sign up?\n\n\n\n\n\n\ncicd\n\n\ndagger\n\n\n\n\n\n\n2024-09-28\n\n\nKCD Porto\n\n\n\n\n\n\n\n\n\n\n\n\nWell, it works on my machine! How we can avoid push and pray by using Dagger\n\n\n\n\n\n\ncicd\n\n\ndagger\n\n\n\n\n\n\n2024-09-24\n\n\nDevopsDays Porto\n\n\n\n\n\n\nNo matching items"
+    "text": "These are my personal slides decks for presentations.\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\nevent\n\n\n\n\n\n\n\n\n\n2026-04-09\n\n\nNo more push and pray in CI/CD? Where can I sign up?\n\n\ncicd, dagger\n\n\nKCD Porto\n\n\n\n\n\n\n\n2025-12-09\n\n\nWell, it works on my machine! How we can avoid push and pray by using Dagger\n\n\ncicd, dagger, devopsdays\n\n\nDevopsDays Porto\n\n\n\n\n\nNo matching items\n\n\nThey were done using Quarto. Learn more about Quarto here."
   }
 ]

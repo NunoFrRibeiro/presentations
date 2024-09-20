@@ -71,20 +71,20 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-presentations .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-categories','listing-event','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-categories','listing-event',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
       
       searchColumns: ["listing-date","listing-title"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-presentations'] = new List('listing-presentations', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -140,12 +140,28 @@ window.Quarto = {
       <h1 class="title">Presentations</h1>
                       </div>
   </div>
-</header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+    
+  
+  <div class="quarto-title-meta column-page-left">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Nuno Ribeiro </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cicd">cicd <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dagger">dagger <span class="quarto-category-count">(2)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cicd">cicd <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dagger">dagger <span class="quarto-category-count">(2)</span></div><div class="category" data-category="devopsdays">devopsdays <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -153,90 +169,96 @@ window.Quarto = {
 
 
 
-<p><br> <br></p>
-
-
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<p>These are <a href="https://github.com/NunoFrRibeiro">my</a> personal slides decks for presentations.</p>
+<div id="listing-presentations" class="quarto-listing quarto-listing-container-table">
 <div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-presentations-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-presentations'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-title-sort" data-direction="asc">
+          Title
+        </option>
+     </select>
+  </div>
     <div class="input-group input-group-sm quarto-listing-filter">
       <span class="input-group-text"><i class="bi bi-search"></i></span>
       <input type="text" class="search form-control" placeholder="Filter">
     </div>
 </div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="cicd,dagger" data-listing-date-sort="1727478000000" data-listing-file-modified-sort="1724195905977" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="thumbnail">
-<p><a href="./202409-KCD-Porto/index.html" class="no-external"></a></p><a href="./202409-KCD-Porto/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./202409-KCD-Porto/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./202409-KCD-Porto/index.html" class="no-external">No more push and pray in CI/CD? Where can I sign up?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./202409-KCD-Porto/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('cicd'); return false;">
-cicd
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dagger'); return false;">
-dagger
-</div>
-</div>
-</div>
-<div class="metadata">
-<a href="./202409-KCD-Porto/index.html" class="no-external">
-<div class="listing-date">
-2024-09-28
-</div>
-<div class="metadata-value listing-event">
-KCD Porto
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="cicd,dagger" data-listing-date-sort="1727132400000" data-listing-file-modified-sort="1726536787367" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1112">
-<div class="thumbnail">
-<p><a href="./202409-DevOpsDays-Porto/index.html" class="no-external"></a></p><a href="./202409-DevOpsDays-Porto/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./202409-DevOpsDays-Porto/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./202409-DevOpsDays-Porto/index.html" class="no-external">Well, it works on my machine! How we can avoid push and pray by using Dagger</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./202409-DevOpsDays-Porto/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('cicd'); return false;">
-cicd
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dagger'); return false;">
-dagger
-</div>
-</div>
-</div>
-<div class="metadata">
-<a href="./202409-DevOpsDays-Porto/index.html" class="no-external">
-<div class="listing-date">
-2024-09-24
-</div>
-<div class="metadata-value listing-event">
-DevopsDays Porto
-</div>
-</a>
-</div>
-</div>
-</div>
+<table class="quarto-listing-table table">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+<a class="sort" data-sort="listing-date-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Date</a>
+</th>
+<th>
+<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
+</th>
+<th>
+Categories
+</th>
+<th>
+event
+</th>
+</tr>
+</thead>
+<tbody class="list">
+<tr data-index="0" data-categories="cicd,dagger" data-listing-date-sort="1775689200000" data-listing-file-modified-sort="1726839881400" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" data-listing-title-sort="No more push and pray in CI/CD? Where can I sign up?" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-image"><div class="listing-item-img-placeholder card-img-top" style="height: 40px;">&nbsp;</div></span>
+</td>
+<td>
+<span class="listing-date">2026-04-09</span>
+</td>
+<td>
+<a href="./202409-KCD-Porto/index.html" class="title listing-title">No more push and pray in CI/CD? Where can I sign up?</a>
+</td>
+<td>
+<span class="listing-categories">cicd, dagger</span>
+</td>
+<td>
+<span class="listing-event">KCD Porto</span>
+</td>
+</tr>
+<tr data-index="1" data-categories="cicd,dagger,devopsdays" data-listing-date-sort="1765238400000" data-listing-file-modified-sort="1726848522399" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1238" data-listing-title-sort="Well, it works on my machine! How we can avoid push and pray by using Dagger" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-image"><div class="listing-item-img-placeholder card-img-top" style="height: 40px;">&nbsp;</div></span>
+</td>
+<td>
+<span class="listing-date">2025-12-09</span>
+</td>
+<td>
+<a href="./202409-DevOpsDays-Porto/index.html" class="title listing-title">Well, it works on my machine! How we can avoid push and pray by using Dagger</a>
+</td>
+<td>
+<span class="listing-categories">cicd, dagger, devopsdays</span>
+</td>
+<td>
+<span class="listing-event">DevopsDays Porto</span>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-</div></main> <!-- /main -->
+</div>
+<p>They were done using Quarto. Learn more about Quarto <a href="https://www.quarto.com">here</a>.</p>
+
+
+
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

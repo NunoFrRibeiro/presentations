@@ -1,20 +1,28 @@
 ---
 title: "Presentations"
 listing:
+  id: presentations
   contents:
     - .
   sort: "date desc"
-  type: default
-  fields: [date, title, categories, event, image]
+  type: table
+  fields: [image, date, title, categories, event]
   categories: true
-  sort-ui: false
+  sort-ui: true
   filter-ui: [date, title]
 page-layout: full
 title-block-banner: true
 format:
   html:
-    template-partials:
-        - resources/templates/html/title-block.html
+    theme: darkly
+    # template-partials:
+    #     - resources/templates/html/title-block.html
 ---
-<br>
-<br>
+
+These are [my](https://github.com/NunoFrRibeiro) personal slides decks for presentations.
+
+::: {#presentations}
+:::
+
+They were done using Quarto.
+Learn more about Quarto [here](https://www.quarto.com).
