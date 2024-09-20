@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.5.56">
 
   <meta name="author" content="Nuno Ribeiro">
-  <meta name="dcterms.date" content="2024-09-24">
+  <meta name="dcterms.date" content="2025-12-09">
   <title>Well, it works on my machine! How we can avoid push and pray by using Dagger</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -391,13 +391,38 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-transition="slide" class="center">
+<!-- <section id="title-slide" data-background-image="./assets/cover.jpeg" data-background-transition="slide"> -->
+<!--  -->
+<!--  -->
+<!-- </section> -->
+<section id="section" class="title-slide slide level1 center" data-background-color="black" data-background-image="./assets/cover.jpeg">
+<h1></h1>
+
 </section>
+
 <section>
 <section id="whoami" class="title-slide slide level1 center">
 <h1>whoami</h1>
-<p><strong><em><a href="https://github.com/NunoFrRibeiro">NunoFrRibeiro</a> or Nuno Ribeiro</em></strong></p>
-<p>and for the better part of the last decade I was a Civil Engineer</p>
+<p><strong><em>Nuno Ribeiro or <a href="https://github.com/NunoFrRibeiro">NunoFrRibeiro</a></em></strong></p>
+<p><br></p>
+<p>Civil Engineer over the last decade</p>
+<p><br></p>
+<p>DevOps Engineer @ <a href="https://cleva-solutions.com/">Cleva Solutions</a></p>
+<aside class="notes">
+<ul>
+<li>Cleva is a powerhouse for the development of insurance software with 40 years of experience</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section class="slide level2 center">
 
@@ -418,26 +443,6 @@
 <div class="footer">
 <p>(expect a few memes)</p>
 </div>
-</section>
-<section id="and-now" class="slide level2 center">
-<h2>and now?</h2>
-<p>I work as a DevOps Engineer @ <a href="https://cleva-solutions.com/">Cleva Solutions</a></p>
-<p>but, <strong><em>only for today</em></strong> I won’t be talking about insurance</p>
-<aside class="notes">
-<ul>
-<li>Cleva is a powerhouse for the development of insurance software with 40 years of experience</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="the-state-of-cicd" class="title-slide slide level1 center">
@@ -597,11 +602,8 @@
 <p><img data-src="./assets/all-red.jpg" class="fragment"></p>
 </div>
 </section>
-<section id="push-and-pray" class="slide level2 center" data-background-color="black" data-background-transition="fade">
+<section id="push-and-pray" class="slide level2 center" data-background-color="black" data-background-size="75%" data-background-repeat="no-repeat" data-background-image="./assets/pushandpray.jpg" data-background-transition="fade" data-background-position="center">
 <h2></h2>
-<div class="center">
-<p><img data-src="./assets/pushandpray.jpg"></p>
-</div>
 <div class="footer">
 <p>(🙏 🙏)</p>
 </div>
@@ -632,23 +634,16 @@
 <section class="slide level2 center">
 
 <h3>
-How does it solve this problem?
+How does it try to solve this problem?
 </h3>
 <div class="fragment fade-up">
 <h3>
-By running your pipelines in containers
+By running your application delivery pipelines in containers
 </h3>
 </div>
-</section>
-<section id="dagger-engine" class="slide level2 center" data-background-color="black" data-background-image="assets/Dagger-Engine.avif" data-background-size="55%" data-background-transition="fade">
-<h2></h2>
 <aside class="notes">
 <ul>
-<li>To use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.</li>
-<li>Dagger Functions let you encapsulate common operations or workflows into discrete units with clear inputs and outputs.</li>
-<li>Functions are the fundamental unit of computing in Dagger</li>
-<li>Usual pipeline operations, such as “pull a container image”, “copy a file”, “forward a TCP port”, are exposed as callable Dagger Functions</li>
-<li>Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.</li>
+<li>a daggerized pipeline runs the same wether locally or on your CI provider</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -666,11 +661,37 @@ By running your pipelines in containers
 <h2></h2>
 <aside class="notes">
 <ul>
+<li>Encapsulate all your project’s tasks and workflows into Functions, written in your programming language of choice.</li>
+<li>Run your Functions from the command line, your language interpreter, or a custom HTTP client.</li>
+<li>Package your Functions into a module, to reuse in your next project or share with the community on Daggerverse.</li>
+<li>The Daggerverse is a service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.</li>
+<li>Search for existing modules, and import them into yours</li>
+<li>modules can reuse each other’s Functions - regardless of which language they are written in</li>
 <li>the most common way to use Dagger Functions is via the Dagger CLI.</li>
-<li>The Dagger CLI is a easy to use tool that can be used interactively from a terminal or non-interactively from a shell script or a CI configuration.</li>
-<li>Dagger Functions can also be called from other Dagger Functions.</li>
-<li>Functions are packaged, shared and reused using modules.</li>
-<li>The Daggerverse is a free service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.</li>
+<li>The Dagger CLI is a easy to use tool that can be used interactively from a terminal or via a shell script or a CI configuration.</li>
+<li>Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dagger-engine" class="slide level2 center" data-background-color="black" data-background-image="assets/Dagger-Engine.avif" data-background-size="55%" data-background-transition="fade">
+<h2></h2>
+<aside class="notes">
+<ul>
+<li>and as I said, to use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.</li>
+<li>Functions let you encapsulate common operations or workflows into units with clear inputs and outputs.</li>
+<li>they are the the fundamental unit of computing in Dagger</li>
+<li>Usual pipeline operations, such as “pull a container image”, “copy a file”, “forward a TCP port”, are exposed as callable Dagger Functions</li>
+<li>Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -717,21 +738,6 @@ By running your pipelines in containers
 <span id="cb3-29"><a></a></span>
 <span id="cb3-30"><a></a>    <span class="cf">return</span> addr<span class="op">,</span> <span class="ot">nil</span></span>
 <span id="cb3-31"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<aside class="notes">
-<ul>
-<li>dagger supports multiple programming languages via native-language SDKs</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section class="slide level2 center">
 
@@ -762,9 +768,39 @@ By running your pipelines in containers
 <span id="cb4-25"><a></a>    <span class="cf">return</span> dag<span class="op">.</span><span class="fu">trivy</span>()<span class="op">.</span><span class="fu">scanContainer</span>(dag<span class="op">.</span><span class="fu">container</span>()<span class="op">.</span><span class="fu">from</span>(ref))</span>
 <span id="cb4-26"><a></a>  }</span>
 <span id="cb4-27"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="why-and-how-do-i-use-dagger" class="title-slide slide level1 center">
+<h1>Why and How do I use dagger?</h1>
+
+</section>
+<section id="tired-of-yamlgroovy." class="slide level2 center">
+<h2>Tired of YAML/GROOVY/….</h2>
+<div class="fragment">
+<p>Let’s look at some Code (not yaml)</p>
+</div>
+</section></section>
+<section>
+<section id="demo" class="title-slide slide level1 nostretch center" data-background-color="black" data-background-transition="slide">
+<h1></h1>
+<div class="r-fit-text">
+<p><strong>DEMO TIME</strong></p>
+</div>
+<div class="footer">
+<p>(🙏 to the demo gods!)</p>
+</div>
 <aside class="notes">
 <ul>
-<li>enabling us to build our pipelines in the same language as our application and benefit from the ecosystem’s existing tooling and best practices</li>
+<li>show backend functions with imported modules from the community (lint/tests/build)</li>
+<li>show ci module</li>
+<li>go to daggerverse</li>
+<li>kyle PFound Golang module</li>
+<li>run dagger call lint</li>
+<li>force and error</li>
+<li>run dagger call lint again</li>
+<li>push post to to github and see the the workflow running</li>
+<li>go to dagger cloud and see successful runs and failed runs as well as the ci runs</li>
+<li>o to blog to show the updated post</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -777,19 +813,6 @@ By running your pipelines in containers
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="section" class="slide level2 center">
-<h2></h2>
-</section></section>
-<section>
-<section id="demo" class="title-slide slide level1 nostretch center" data-background-color="black" data-background-transition="slide">
-<h1></h1>
-<div class="r-fit-text">
-<p><strong>DEMO TIME</strong></p>
-</div>
-<div class="footer">
-<p>(🙏 to the demo gods!)</p>
-</div>
 </section>
 <section id="you-can-check-out-the-demo-source-code" class="slide level2 center">
 <h2>You can check out the demo source code @</h2>

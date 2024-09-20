@@ -1,6 +1,6 @@
 ---
 title: "Well, it works on my machine! How we can avoid push and pray by using Dagger"
-date: "2024-09-24"
+date: "24/09/24"
 event: "DevopsDays Porto"
 eventUrl: https://devopsdays.org/events/2024-portugal/welcome/
 description: |
@@ -19,25 +19,33 @@ description: |
 
   WHY?
   If it works on your machine it will work on CI.
-categories: [cicd, dagger]
-##  image: 
+categories: [cicd, dagger,devopsdays]
+title-slide-attributes:
+  data-background-image: ./assets/cover.jpeg
+  data-background-transition: slide
 format:
   revealjs:
-    # data-background-image: ./assets/
-    # css: custom.css
     navigation-mode: vertical
     title-slide-no-content: true
-    title-slide-attributes:
-      # data-background-color: "#ADD8E6"
-      # data-background-image: 
-      data-background-transition: slide
 ---
+
+# {background-color="black" background-image="./assets/cover.jpeg"}
 
 # whoami
 
-__*[NunoFrRibeiro](https://github.com/NunoFrRibeiro) or Nuno Ribeiro*__
+__*Nuno Ribeiro or [NunoFrRibeiro](https://github.com/NunoFrRibeiro)*__
 
-and for the better part of the last decade I was a Civil Engineer
+<br>
+
+Civil Engineer over the last decade
+
+<br>
+
+DevOps Engineer @ [Cleva Solutions](https://cleva-solutions.com/)
+
+::: {.notes}
+- Cleva is a powerhouse for the development of insurance software with 40 years of experience
+:::
 
 ---
 
@@ -63,16 +71,6 @@ to this
 
 ::: footer
 (expect a few memes)
-:::
-
-## and now?
-
-I work as a DevOps Engineer @ [Cleva Solutions](https://cleva-solutions.com/)
-
-but, __*only for today*__ I won't be talking about insurance
-
-::: {.notes}
-- Cleva is a powerhouse for the development of insurance software with 40 years of experience
 :::
 
 # The state of CI/CD
@@ -230,11 +228,7 @@ deploy-package:
 ![](./assets/all-red.jpg){.fragment}
 :::
 
-## {#push-and-pray background-color="black" background-transition="fade"}
-
-::: {.center}
-![](./assets/pushandpray.jpg)
-:::
+## {#push-and-pray background-color="black" background-size="75%" background-repeat="no-repeat" background-image="./assets/pushandpray.jpg" background-transition="fade" background-position="center"}
 
 ::: footer
 (🙏 🙏)
@@ -253,30 +247,39 @@ deploy-package:
 
 ---
 
-<h3>How does it solve this problem?</h3>
+<h3>How does it try to solve this problem?</h3>
 
 ::: {.fragment .fade-up}
-<h3>By running your pipelines in containers</h3>
+<h3>By running your application delivery pipelines in containers</h3>
 :::
 
-## {#dagger-engine background-color="black" background-image="assets/Dagger-Engine.avif" background-size="55%" background-transition="fade"}
-
 ::: {.notes}
-- To use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.
-- Dagger Functions let you encapsulate common operations or workflows into discrete units with clear inputs and outputs.
-- Functions are the fundamental unit of computing in Dagger
-- Usual pipeline operations, such as "pull a container image", "copy a file", "forward a TCP port", are exposed as callable Dagger Functions
-- Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.
+- a daggerized pipeline runs the same wether locally or on your CI provider
 :::
 
 ## {#dagger-platform background-color="black" background-image="assets/Dagger-platform.avif" background-size="99%" background-transition="fade"}
 
 ::: {.notes}
+- Encapsulate all your project's tasks and workflows into Functions, written in your programming language of choice.
+- Run your Functions from the command line, your language interpreter, or a custom HTTP client.
+- Package your Functions into a module, to reuse in your next project or share with the community on Daggerverse.
+- The Daggerverse is a service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.
+- Search for existing modules, and import them into yours
+- modules can reuse each other's Functions - regardless of which language they are written in
 - the most common way to use Dagger Functions is via the Dagger CLI.
-- The Dagger CLI is a easy to use tool that can be used interactively from a terminal or non-interactively from a shell script or a CI configuration.
-- Dagger Functions can also be called from other Dagger Functions.
-- Functions are packaged, shared and reused using modules.
-- The Daggerverse is a free service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.
+- The Dagger CLI is a easy to use tool that can be used interactively from a terminal or via a shell script or a CI configuration.
+- Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.
+:::
+
+
+## {#dagger-engine background-color="black" background-image="assets/Dagger-Engine.avif" background-size="55%" background-transition="fade"}
+
+::: {.notes}
+- and as I said, to use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.
+- Functions let you encapsulate common operations or workflows into units with clear inputs and outputs.
+- they are the the fundamental unit of computing in Dagger
+- Usual pipeline operations, such as "pull a container image", "copy a file", "forward a TCP port", are exposed as callable Dagger Functions
+- Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.
 :::
 
 ---
@@ -314,11 +317,6 @@ func (m *MyModule) Build(
 	return addr, nil
 }
 ```
-
-::: {.notes}
-- dagger supports multiple programming languages via native-language SDKs
-:::
-
 ---
 
 ```typescript
@@ -351,11 +349,14 @@ class Ci {
 }
 ```
 
-::: {.notes}
-- enabling us to build our pipelines in the same language as our application and benefit from the ecosystem's existing tooling and best practices
-:::
+# Why and How do I use dagger?
 
-##
+## Tired of YAML/GROOVY/.... 
+
+::: {.fragment}
+Let's look at some Code
+(not yaml)
+:::
 
 # {#demo .nostretch background-color="black" background-transition="slide"}
 
@@ -365,6 +366,19 @@ class Ci {
 
 ::: footer
 (🙏 to the demo gods!)
+:::
+
+::: {.notes}
+- show backend functions with imported modules from the community (lint/tests/build)
+- show ci module
+- go to daggerverse
+- kyle PFound Golang module
+- run dagger call lint
+- force and error
+- run dagger call lint again
+- push post to to github and see the the workflow running
+- go to dagger cloud and see successful runs and failed runs as well as the ci runs
+- o to blog to show the updated post
 :::
 
 ## You can check out the demo source code @
