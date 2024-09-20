@@ -65,7 +65,7 @@ to this
 
 <br>
 
-![](./assets/thinking_meme.jpg){.r-stretch fig-align="center"}
+![](./assets/cover-meme.jpg){.r-stretch fig-align="center"}
 
 <br>
 
