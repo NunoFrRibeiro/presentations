@@ -4,7 +4,14 @@
     "href": "202409-DevOpsDays-Porto/index.html#ready-to-commit-that-code",
     "title": "",
     "section": "Ready to commit that code?",
-    "text": "Ready to commit that code?\n\nname: CI\n\non:\n  push:\n    branches: [main]\n\njobs:\n  ci:\n    name: ci\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n      - name: Setup Go\n        uses: actions/setup-go@v5\n        with:\n          go-version: '1.21.x'\n      - name: Install dependencies\n        run: go get .\n      - name: Build\n        run: go build -v ./...\n      - name: Test with the Go CLI\n        run: go test"
+    "text": "Ready to commit that code?\n\n\n\nHow it starts 👉\n\nname: CI\n\non:\n  push:\n    branches: [main]\n\njobs:\n  ci:\n    name: ci\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n      - name: Setup Go\n        uses: actions/setup-go@v5\n        with:\n          go-version: '1.21.x'\n      - name: Install dependencies\n        run: go get .\n      - name: Build\n        run: go build -v ./...\n      - name: Test with the Go CLI\n        run: go test"
+  },
+  {
+    "objectID": "202409-DevOpsDays-Porto/index.html#days-of-code-commits",
+    "href": "202409-DevOpsDays-Porto/index.html#days-of-code-commits",
+    "title": "",
+    "section": "40 days of code commits",
+    "text": "40 days of code commits\n\n\nDeveloper Environment 👉\n\nbrew install go\nbrew install\ngolangci-lint\nmake build\ntask test\njust lint\nmy-special-script.sh\ndocker compose dev"
   },
   {
     "objectID": "202409-DevOpsDays-Porto/index.html#days-of-code-commits-later",
