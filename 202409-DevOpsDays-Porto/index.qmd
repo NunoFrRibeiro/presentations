@@ -73,7 +73,7 @@ to this
 (expect a few memes)
 :::
 
-# The state of CI/CD
+# CI/CD
 
 YAML is a pain
 
@@ -88,6 +88,14 @@ and you know it 😬
 ## Ready to commit that code?
 
 ::: {.r-stack}
+:::: {.columns}
+
+::: {.column width="40%"}
+How it starts 👉
+:::
+
+::: {.column width="60%"}
+
 ```yaml
 name: CI
 
@@ -116,6 +124,37 @@ jobs:
 
 ![](./assets/all-green.jpg){.fragment}
 :::
+
+::::
+
+:::
+
+## 40 days of code commits
+
+:::: {.columns}
+
+::: {.column width="60%"}
+Developer
+Environment 👉
+:::
+
+::: {.column width="40%"}
+
+```bash
+brew install go
+brew install
+golangci-lint
+make build
+task test
+just lint
+my-special-script.sh
+docker compose dev
+```
+
+:::
+
+::::
+
 
 ## 365 days of code commits later
 
@@ -317,6 +356,11 @@ func (m *MyModule) Build(
 	return addr, nil
 }
 ```
+
+::: {.notes}
+- dockerfile instructions
+:::
+
 ---
 
 ```typescript
@@ -347,6 +391,43 @@ class Ci {
     return dag.trivy().scanContainer(dag.container().from(ref))
   }
 }
+```
+
+::: {.notes}
+- Vulnerabilities
+:::
+
+---
+
+```{.java code-line-numbers="|6"}
+pipeline { agent { label 'dagger' }
+  stages {
+    stage("dagger") {
+      steps {
+        sh '''
+            dagger call build
+        '''
+      }
+    }
+  }
+}
+```
+
+---
+
+```{.yaml code-line-numbers="|12"}
+name: CI
+on:
+ push:
+   branches: [main]
+
+jobs:
+ dagger:
+   name: dagger
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4
+     - run: dagger call build
 ```
 
 # Why and How do I use dagger?
@@ -394,3 +475,11 @@ Let's look at some Code
 [In/nunofrribeiro](https://www.linkedin.com/in/nunofrribeiro)
 
 [https://blog.nfribeiro.com](https://blog.nfribeiro.com)
+
+<br>
+
+Join Discord!
+dagger.io
+
+Try the Quickstart!
+docs.dagger.io 
