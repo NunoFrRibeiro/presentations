@@ -30,9 +30,74 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-  <link rel="stylesheet" href="custom.css">
+  <link rel="stylesheet" href="styles.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -327,12 +392,478 @@
   <div class="reveal">
     <div class="slides">
 
-<!-- <section id="title-slide" data-background-color="#030525" data-background-transition="slide"> -->
+<!-- <section id="title-slide"> -->
 <!--  -->
 <!--  -->
 <!-- </section> -->
+<section>
+<section id="whoami" class="title-slide slide level1 center">
+<h1>whoami</h1>
+<div class="r-stack">
+<div class="columns">
+<div class="column" style="width:75%;">
+<p><strong><em>Nuno Ribeiro or <a href="https://github.com/NunoFrRibeiro">NunoFrRibeiro</a></em></strong></p>
+<p><br></p>
+<p>Civil Engineer over the last decade</p>
+<p><br></p>
+<p>DevOps Engineer @ <a href="https://cleva-solutions.com/">Cleva Solutions</a></p>
+</div><div class="column" style="width:25%;">
+<p><img data-src="./assets/badge.jpeg" class="top"></p>
+</div></div>
+</div>
+</section>
 <section class="slide level2 center">
 
+<div class="absolute" style="top: 0px; left: 0px; ">
+<p>so I went from this</p>
+</div>
+<p><br></p>
+
+<img data-src="./assets/from_this.jpeg" class="r-stretch quarto-figure quarto-figure-center"></section>
+<section class="slide level2 center">
+
+<div class="absolute" style="top: 0px; left: 0px; ">
+<p>to this</p>
+</div>
+<p><br></p>
+
+<img data-src="./assets/cover-meme.jpg" class="r-stretch quarto-figure quarto-figure-center"><p><br></p>
+<div class="footer">
+<p>(expect a few memes)</p>
+</div>
+</section></section>
+<section>
+<section id="cicd" class="title-slide slide level1 center">
+<h1>CI/CD</h1>
+<p>YAML is a pain</p>
+<div class="fragment">
+<p>and you know it 😬</p>
+</div>
+<aside class="notes">
+<ul>
+<li>how did I find</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ready-to-commit-that-code" class="slide level2 center">
+<h2>Ready to commit that code?</h2>
+<div class="r-stack">
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>How it starts 👉</p>
+</div><div class="column" style="width:60%;">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a></a><span class="fu">name</span><span class="kw">:</span><span class="at"> CI</span></span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb1-4"><a></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb1-5"><a></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb1-8"><a></a><span class="at">  </span><span class="fu">ci</span><span class="kw">:</span></span>
+<span id="cb1-9"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> ci</span></span>
+<span id="cb1-10"><a></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb1-11"><a></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb1-12"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout repository</span></span>
+<span id="cb1-13"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
+<span id="cb1-14"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Setup Go</span></span>
+<span id="cb1-15"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/setup-go@v5</span></span>
+<span id="cb1-16"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb1-17"><a></a><span class="at">          </span><span class="fu">go-version</span><span class="kw">:</span><span class="at"> </span><span class="st">'1.21.x'</span></span>
+<span id="cb1-18"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install dependencies</span></span>
+<span id="cb1-19"><a></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> go get .</span></span>
+<span id="cb1-20"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build</span></span>
+<span id="cb1-21"><a></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> go build -v ./...</span></span>
+<span id="cb1-22"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Test with the Go CLI</span></span>
+<span id="cb1-23"><a></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> go test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img data-src="./assets/all-green.jpg" class="fragment"></p>
+</div></div>
+</div>
+</section>
+<section id="days-of-code-commits" class="slide level2 center">
+<h2>40 days of code commits</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Developer Environment 👉</p>
+</div><div class="column" style="width:40%;">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="ex">brew</span> install go</span>
+<span id="cb2-2"><a></a><span class="ex">brew</span> install</span>
+<span id="cb2-3"><a></a><span class="ex">golangci-lint</span></span>
+<span id="cb2-4"><a></a><span class="fu">make</span> build</span>
+<span id="cb2-5"><a></a><span class="ex">task</span> test</span>
+<span id="cb2-6"><a></a><span class="ex">just</span> lint</span>
+<span id="cb2-7"><a></a><span class="ex">my-special-script.sh</span></span>
+<span id="cb2-8"><a></a><span class="ex">docker</span> compose dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+</section>
+<section id="days-of-code-commits-later" class="slide level2 center">
+<h2>365 days of code commits later</h2>
+<div class="r-stack">
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a></a><span class="co"> # Foobar pipeline</span></span>
+<span id="cb3-2"><a></a><span class="co"># Include the Common CI pipeline parameters.</span></span>
+<span id="cb3-3"><a></a><span class="fu">include</span><span class="kw">:</span></span>
+<span id="cb3-4"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">project</span><span class="kw">:</span><span class="at"> </span><span class="st">'foo/bar/foobarproject/cicdtemplate'</span></span>
+<span id="cb3-5"><a></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> </span><span class="st">'/Common.gitlab-ci.yml'</span></span>
+<span id="cb3-6"><a></a><span class="co">  #- /force-app/ui-tests/pipeline.yml</span></span>
+<span id="cb3-7"><a></a></span>
+<span id="cb3-8"><a></a><span class="fu">stages</span><span class="kw">:</span></span>
+<span id="cb3-9"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> build-metadata-package</span></span>
+<span id="cb3-10"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-js-tests</span></span>
+<span id="cb3-11"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> validate-package</span></span>
+<span id="cb3-12"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> deploy-package</span></span>
+<span id="cb3-13"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-unit-tests</span></span>
+<span id="cb3-14"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-api-tests</span></span>
+<span id="cb3-15"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-ui-tests</span></span>
+<span id="cb3-16"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> integration</span></span>
+<span id="cb3-17"><a></a></span>
+<span id="cb3-18"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-19"><a></a><span class="co"># Builds the Metadata Package, builds the Package</span></span>
+<span id="cb3-20"><a></a><span class="co"># files and Destructive changes</span></span>
+<span id="cb3-21"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-22"><a></a><span class="fu">build-metadata-package</span><span class="kw">:</span></span>
+<span id="cb3-23"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> build-metadata-package</span></span>
+<span id="cb3-24"><a></a><span class="at">  </span><span class="fu">except</span><span class="kw">:</span></span>
+<span id="cb3-25"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
+<span id="cb3-26"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $SCRATCH_DISABLED</span></span>
+<span id="cb3-27"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $TEST_DISABLED</span></span>
+<span id="cb3-28"><a></a><span class="at">  </span><span class="fu">only</span><span class="kw">:</span></span>
+<span id="cb3-29"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
+<span id="cb3-30"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_DEVELOP_RUN</span></span>
+<span id="cb3-31"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_MASTER_RUN</span></span>
+<span id="cb3-32"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_VALIDATE_MASTER</span></span>
+<span id="cb3-33"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_RUN</span></span>
+<span id="cb3-34"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_DEPLOY</span></span>
+<span id="cb3-35"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'test-integration'</span></span>
+<span id="cb3-36"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'develop'</span></span>
+<span id="cb3-37"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'master'</span></span>
+<span id="cb3-38"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'release/uat'</span></span>
+<span id="cb3-39"><a></a><span class="at">  </span><span class="fu">allow_failure</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb3-40"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb3-41"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> build_diff_files</span></span>
+<span id="cb3-42"><a></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
+<span id="cb3-43"><a></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
+<span id="cb3-44"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> deploySource</span></span>
+<span id="cb3-45"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> deploy</span></span>
+<span id="cb3-46"><a></a><span class="at">  </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb3-47"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> foobarproject/$CI_COMMIT_REF_SLUG</span></span>
+<span id="cb3-48"><a></a></span>
+<span id="cb3-49"><a></a><span class="co"># Merges release-branch to develop</span></span>
+<span id="cb3-50"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-51"><a></a><span class="fu">integration-vp-to-develop</span><span class="kw">:</span></span>
+<span id="cb3-52"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> integration</span></span>
+<span id="cb3-53"><a></a><span class="at">  </span><span class="fu">only</span><span class="kw">:</span></span>
+<span id="cb3-54"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
+<span id="cb3-55"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'release/uat'</span></span>
+<span id="cb3-56"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb3-57"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> merge_branches origin/release/uat develop</span></span>
+<span id="cb3-58"><a></a><span class="at">  </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb3-59"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> foobarproject/$CI_COMMIT_REF_SLUG</span></span>
+<span id="cb3-60"><a></a></span>
+<span id="cb3-61"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-62"><a></a><span class="co"># Merges release-branch to develop</span></span>
+<span id="cb3-63"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-64"><a></a><span class="fu">integration-develop-to-test</span><span class="kw">:</span></span>
+<span id="cb3-65"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> integration</span></span>
+<span id="cb3-66"><a></a><span class="at">  </span><span class="fu">only</span><span class="kw">:</span></span>
+<span id="cb3-67"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
+<span id="cb3-68"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'develop'</span></span>
+<span id="cb3-69"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb3-70"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> merge_branches origin/develop test-integration</span></span>
+<span id="cb3-71"><a></a><span class="at">  </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb3-72"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> foobarproject/$CI_COMMIT_REF_SLUG</span></span>
+<span id="cb3-73"><a></a></span>
+<span id="cb3-74"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-75"><a></a><span class="co"># Deploys the source Package</span></span>
+<span id="cb3-76"><a></a><span class="co">####################################################</span></span>
+<span id="cb3-77"><a></a><span class="fu">deploy-package</span><span class="kw">:</span></span>
+<span id="cb3-78"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> deploy-package</span></span>
+<span id="cb3-79"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb3-80"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> authenticate $FOOBAR_USERNAME $CLIENT_ID "ORG" $LOGIN_URL</span></span>
+<span id="cb3-81"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> deploy_baz $FOOBAR_USERNAME "60"</span></span>
+<span id="cb3-82"><a></a><span class="at">  </span><span class="fu">rules</span><span class="kw">:</span></span>
+<span id="cb3-83"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$DEPLOY_DISABLED == "1"'</span></span>
+<span id="cb3-84"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> never</span></span>
+<span id="cb3-85"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$TEST_DISABLED == "1"'</span></span>
+<span id="cb3-86"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> never</span></span>
+<span id="cb3-87"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$CI_COMMIT_REF_NAME == "test-integration"'</span></span>
+<span id="cb3-88"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
+<span id="cb3-89"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$CI_COMMIT_REF_NAME == "develop"'</span></span>
+<span id="cb3-90"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
+<span id="cb3-91"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$CI_COMMIT_REF_NAME == "release/uat"'</span></span>
+<span id="cb3-92"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
+<span id="cb3-93"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$FORCE_RUN == "1"'</span></span>
+<span id="cb3-94"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
+<span id="cb3-95"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$FORCE_DEVELOP_RUN == "1"'</span></span>
+<span id="cb3-96"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
+<span id="cb3-97"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$FORCE_DEPLOY == "1"'</span></span>
+<span id="cb3-98"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
+<span id="cb3-99"><a></a></span>
+<span id="cb3-100"><a></a><span class="co">####################################################</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img data-src="./assets/all-red.jpg" class="fragment"></p>
+</div>
+</section>
+<section id="push-and-pray" class="slide level2 center" data-background-color="black" data-background-size="75%" data-background-repeat="no-repeat" data-background-image="./assets/pushandpray.jpg" data-background-transition="fade" data-background-position="center">
+<h2></h2>
+<div class="footer">
+<p>(🙏 🙏)</p>
+</div>
+<aside class="notes">
+<ul>
+<li>we complain</li>
+<li>and we start pushing and praying</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="enter-the" class="title-slide slide level1 center" data-background-color="black">
+<h1>Enter The</h1>
+<div class="r-stack">
+<p><img data-src="./assets/dagger.avif"></p>
+</div>
+</section>
+<section class="slide level2 center">
+
+<h3>
+How does it try to solve this problem?
+</h3>
+<div class="fragment fade-up">
+<h3>
+By running your application delivery pipelines in containers
+</h3>
+</div>
+<aside class="notes">
+<ul>
+<li>a daggerized pipeline runs the same wether locally or on your CI provider</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dagger-platform" class="slide level2 center" data-background-color="black" data-background-image="assets/Dagger-platform.avif" data-background-size="99%" data-background-transition="fade">
+<h2></h2>
+<aside class="notes">
+<ul>
+<li>Encapsulate all your project’s tasks and workflows into Functions, written in your programming language of choice.</li>
+<li>Run your Functions from the command line, your language interpreter, or a custom HTTP client.</li>
+<li>Package your Functions into a module, to reuse in your next project or share with the community on Daggerverse.</li>
+<li>The Daggerverse is a service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.</li>
+<li>Search for existing modules, and import them into yours</li>
+<li>modules can reuse each other’s Functions - regardless of which language they are written in</li>
+<li>the most common way to use Dagger Functions is via the Dagger CLI.</li>
+<li>The Dagger CLI is a easy to use tool that can be used interactively from a terminal or via a shell script or a CI configuration.</li>
+<li>Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dagger-engine" class="slide level2 center" data-background-color="black" data-background-image="assets/Dagger-Engine.avif" data-background-size="55%" data-background-transition="fade">
+<h2></h2>
+<aside class="notes">
+<ul>
+<li>and as I said, to use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.</li>
+<li>Functions let you encapsulate common operations or workflows into units with clear inputs and outputs.</li>
+<li>they are the the fundamental unit of computing in Dagger</li>
+<li>Usual pipeline operations, such as “pull a container image”, “copy a file”, “forward a TCP port”, are exposed as callable Dagger Functions</li>
+<li>Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource go number-lines code-with-copy"><code class="sourceCode go"><span id="cb4-1"><a></a><span class="kw">type</span> MyModule <span class="kw">struct</span><span class="op">{}</span></span>
+<span id="cb4-2"><a></a></span>
+<span id="cb4-3"><a></a><span class="co">// Build and publish Docker container</span></span>
+<span id="cb4-4"><a></a><span class="kw">func</span> <span class="op">(</span>m <span class="op">*</span>MyModule<span class="op">)</span> Build<span class="op">(</span></span>
+<span id="cb4-5"><a></a>    ctx context<span class="op">.</span>Context<span class="op">,</span></span>
+<span id="cb4-6"><a></a>    <span class="co">// source code location</span></span>
+<span id="cb4-7"><a></a>    <span class="co">// can be local directory or remote Git repository</span></span>
+<span id="cb4-8"><a></a>    src <span class="op">*</span>dagger<span class="op">.</span>Directory<span class="op">,</span></span>
+<span id="cb4-9"><a></a><span class="op">)</span> <span class="op">(</span><span class="dt">string</span><span class="op">,</span> <span class="dt">error</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-10"><a></a>    <span class="co">// build app</span></span>
+<span id="cb4-11"><a></a>    builder <span class="op">:=</span> dag<span class="op">.</span>Container<span class="op">().</span></span>
+<span id="cb4-12"><a></a>        From<span class="op">(</span><span class="st">"golang:latest"</span><span class="op">).</span></span>
+<span id="cb4-13"><a></a>        WithDirectory<span class="op">(</span><span class="st">"/src"</span><span class="op">,</span> src<span class="op">).</span></span>
+<span id="cb4-14"><a></a>        WithWorkdir<span class="op">(</span><span class="st">"/src"</span><span class="op">).</span></span>
+<span id="cb4-15"><a></a>        WithEnvVariable<span class="op">(</span><span class="st">"CGO_ENABLED"</span><span class="op">,</span> <span class="st">"0"</span><span class="op">).</span></span>
+<span id="cb4-16"><a></a>        WithExec<span class="op">([]</span><span class="dt">string</span><span class="op">{</span><span class="st">"go"</span><span class="op">,</span> <span class="st">"build"</span><span class="op">,</span> <span class="st">"-o"</span><span class="op">,</span> <span class="st">"myapp"</span><span class="op">})</span></span>
+<span id="cb4-17"><a></a></span>
+<span id="cb4-18"><a></a>    <span class="co">// publish binary on alpine base</span></span>
+<span id="cb4-19"><a></a>    prodImage <span class="op">:=</span> dag<span class="op">.</span>Container<span class="op">().</span></span>
+<span id="cb4-20"><a></a>        From<span class="op">(</span><span class="st">"alpine"</span><span class="op">).</span></span>
+<span id="cb4-21"><a></a>        WithFile<span class="op">(</span><span class="st">"/bin/myapp"</span><span class="op">,</span> builder<span class="op">.</span>File<span class="op">(</span><span class="st">"/src/myapp"</span><span class="op">)).</span></span>
+<span id="cb4-22"><a></a>        WithEntrypoint<span class="op">([]</span><span class="dt">string</span><span class="op">{</span><span class="st">"/bin/myapp"</span><span class="op">})</span></span>
+<span id="cb4-23"><a></a></span>
+<span id="cb4-24"><a></a>    <span class="co">// publish to ttl.sh registry</span></span>
+<span id="cb4-25"><a></a>    addr<span class="op">,</span> err <span class="op">:=</span> prodImage<span class="op">.</span>Publish<span class="op">(</span>ctx<span class="op">,</span> <span class="st">"ttl.sh/myapp:latest"</span><span class="op">)</span></span>
+<span id="cb4-26"><a></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb4-27"><a></a>        <span class="cf">return</span> <span class="st">""</span><span class="op">,</span> err</span>
+<span id="cb4-28"><a></a>    <span class="op">}</span></span>
+<span id="cb4-29"><a></a></span>
+<span id="cb4-30"><a></a>    <span class="cf">return</span> addr<span class="op">,</span> <span class="ot">nil</span></span>
+<span id="cb4-31"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<ul>
+<li>dockerfile instructions</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a></a><span class="im">import</span> { dag<span class="op">,</span> Container<span class="op">,</span> Directory<span class="op">,</span> <span class="kw">object</span><span class="op">,</span> func } <span class="im">from</span> <span class="st">"@dagger.io/dagger"</span></span>
+<span id="cb5-2"><a></a></span>
+<span id="cb5-3"><a></a>@<span class="fu">object</span>()</span>
+<span id="cb5-4"><a></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-unused-vars</span></span>
+<span id="cb5-5"><a></a><span class="kw">class</span> Ci {</span>
+<span id="cb5-6"><a></a></span>
+<span id="cb5-7"><a></a>  <span class="co">/**</span></span>
+<span id="cb5-8"><a></a><span class="co">   * example usage: "dagger call ci --source ."</span></span>
+<span id="cb5-9"><a></a><span class="co">   */</span></span>
+<span id="cb5-10"><a></a>  @<span class="fu">func</span>()</span>
+<span id="cb5-11"><a></a>  <span class="kw">async</span> <span class="fu">ci</span>(source<span class="op">:</span> Directory)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb5-12"><a></a>    <span class="co">// Use Golang module to configure project</span></span>
+<span id="cb5-13"><a></a>    <span class="kw">var</span> goProject <span class="op">=</span> dag<span class="op">.</span><span class="fu">golang</span>()<span class="op">.</span><span class="fu">withProject</span>(source)</span>
+<span id="cb5-14"><a></a></span>
+<span id="cb5-15"><a></a>    <span class="co">// Run Go tests using Golang module</span></span>
+<span id="cb5-16"><a></a>    <span class="cf">await</span> goProject<span class="op">.</span><span class="fu">test</span>()</span>
+<span id="cb5-17"><a></a></span>
+<span id="cb5-18"><a></a>    <span class="co">// Get container with built binaries using Golang module</span></span>
+<span id="cb5-19"><a></a>    <span class="kw">var</span> image <span class="op">=</span> <span class="cf">await</span> goProject<span class="op">.</span><span class="fu">buildContainer</span>()</span>
+<span id="cb5-20"><a></a></span>
+<span id="cb5-21"><a></a>    <span class="co">// Push image to a registry using core Dagger API</span></span>
+<span id="cb5-22"><a></a>    <span class="kw">var</span> ref <span class="op">=</span> <span class="cf">await</span> image<span class="op">.</span><span class="fu">publish</span>(<span class="st">"ttl.sh/demoapp:1h"</span>)</span>
+<span id="cb5-23"><a></a></span>
+<span id="cb5-24"><a></a>    <span class="co">// Scan image for vulnerabilities using Trivy module</span></span>
+<span id="cb5-25"><a></a>    <span class="cf">return</span> dag<span class="op">.</span><span class="fu">trivy</span>()<span class="op">.</span><span class="fu">scanContainer</span>(dag<span class="op">.</span><span class="fu">container</span>()<span class="op">.</span><span class="fu">from</span>(ref))</span>
+<span id="cb5-26"><a></a>  }</span>
+<span id="cb5-27"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<ul>
+<li>Vulnerabilities</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb6" data-code-line-numbers="|6"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a></a>pipeline <span class="op">{</span> agent <span class="op">{</span> label <span class="er">'</span>dagger<span class="er">'</span> <span class="op">}</span></span>
+<span id="cb6-2"><a></a>  stages <span class="op">{</span></span>
+<span id="cb6-3"><a></a>    <span class="fu">stage</span><span class="op">(</span><span class="st">"dagger"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-4"><a></a>      steps <span class="op">{</span></span>
+<span id="cb6-5"><a></a>        sh <span class="er">'''</span></span>
+<span id="cb6-6"><a></a>            dagger call build</span>
+<span id="cb6-7"><a></a>        <span class="er">'''</span></span>
+<span id="cb6-8"><a></a>      <span class="op">}</span></span>
+<span id="cb6-9"><a></a>    <span class="op">}</span></span>
+<span id="cb6-10"><a></a>  <span class="op">}</span></span>
+<span id="cb6-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb7" data-code-line-numbers="|12"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a></a><span class="fu">name</span><span class="kw">:</span><span class="at"> CI</span></span>
+<span id="cb7-2"><a></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb7-3"><a></a><span class="at"> </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb7-4"><a></a><span class="at">   </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span>
+<span id="cb7-5"><a></a></span>
+<span id="cb7-6"><a></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb7-7"><a></a><span class="at"> </span><span class="fu">dagger</span><span class="kw">:</span></span>
+<span id="cb7-8"><a></a><span class="at">   </span><span class="fu">name</span><span class="kw">:</span><span class="at"> dagger</span></span>
+<span id="cb7-9"><a></a><span class="at">   </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb7-10"><a></a><span class="at">   </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb7-11"><a></a><span class="at">     </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
+<span id="cb7-12"><a></a><span class="at">     </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> dagger call build</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="why-and-how-do-i-use-dagger" class="title-slide slide level1 center">
+<h1>Why and How do I use dagger?</h1>
+
+</section>
+<section id="tired-of-yamlgroovy." class="slide level2 center">
+<h2>Tired of YAML/GROOVY/….</h2>
+<div class="fragment">
+<p>Let’s look at some Code (not yaml)</p>
+</div>
+<div class="footer">
+<p>(🙏 to the demo gods!)</p>
+</div>
+</section>
+<section id="you-can-check-out-the-demo-source-code" class="slide level2 center">
+<h2>You can check out the demo source code @</h2>
+<p><a href="https://github.com/NunoFrRibeiro/personal-blog/">github.com/NunoFrRibeiro/personal-blog</a></p>
+</section></section>
+<section id="obrigado" class="title-slide slide level1 center">
+<h1>Obrigado!</h1>
+<p><br></p>
+<p><a href="https://x.com/diasapensar"><span class="citation" data-cites="diasapensar">@diasapensar</span></a></p>
+<p><a href="https://www.linkedin.com/in/nunofrribeiro">In/nunofrribeiro</a></p>
+<p><a href="https://blog.nfribeiro.com">https://blog.nfribeiro.com</a></p>
+<p><br></p>
+<p>Join Discord! dagger.io</p>
+<p>Try the Quickstart! docs.dagger.io</p>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
@@ -391,7 +922,7 @@
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'h.v',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
