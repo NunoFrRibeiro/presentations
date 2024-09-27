@@ -14,15 +14,460 @@ description: |
   In this session we will talk how we can improve our CI/CD pipelines by using dagger and leveraging the use of it's SDK's, containerization, abstraction and readability to write pipelines as code and show how they run the same independently of running locally or in the chosen CI/CD tool.
 
   Learn by example by demonstrating how I personally do CI/CD in my own blog and how it can be integrated in Argo Workflows and Argo Events running in a kubernetes cluster.
-categories: [cicd, dagger]
+categories: [cicd, dagger, KCD]
 ##image: 
 format:
   revealjs:
-    css: custom.css
+    css: styles.css
     navigation-mode: vertical
+    slideNumber: true
     title-slide-no-content: true
-    title-slide-attributes:
-      data-background-color: "#030525"
-      ##data-background-image: 
-      data-background-transition: slide
 ---
+
+# whoami
+
+::: {.r-stack}
+
+:::: {.columns}
+
+::: {.column width="75%"}
+
+__*Nuno Ribeiro or [NunoFrRibeiro](https://github.com/NunoFrRibeiro)*__
+
+<br>
+
+Civil Engineer over the last decade
+
+<br>
+
+DevOps Engineer @ [Cleva Solutions](https://cleva-solutions.com/)
+
+:::
+
+::: {.column width="25%"}
+
+![](./assets/badge.jpeg){.top}
+
+:::
+
+::::
+
+:::
+
+---
+
+::: {.absolute top=0 left=0}
+so I went from this
+:::
+
+<br>
+
+![](./assets/from_this.jpeg){.r-stretch fig-align="center"}
+
+---
+
+::: {.absolute top=0 left=0}
+to this
+:::
+
+<br>
+
+![](./assets/cover-meme.jpg){.r-stretch fig-align="center"}
+
+<br>
+
+::: {.footer}
+(expect a few memes)
+:::
+
+# CI/CD
+
+YAML is a pain
+
+::: {.fragment}
+and you know it 😬
+:::
+
+::: {.notes}
+- how did I find
+:::
+
+## Ready to commit that code?
+
+::: {.r-stack}
+:::: {.columns}
+
+::: {.column width="40%"}
+How it starts 👉
+:::
+
+::: {.column width="60%"}
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+      - name: Install dependencies
+        run: go get .
+      - name: Build
+        run: go build -v ./...
+      - name: Test with the Go CLI
+        run: go test
+```
+
+![](./assets/all-green.jpg){.fragment}
+:::
+
+::::
+
+:::
+
+## 40 days of code commits
+
+:::: {.columns}
+
+::: {.column width="60%"}
+Developer
+Environment 👉
+:::
+
+::: {.column width="40%"}
+
+```bash
+brew install go
+brew install
+golangci-lint
+make build
+task test
+just lint
+my-special-script.sh
+docker compose dev
+```
+
+:::
+
+::::
+
+
+## 365 days of code commits later
+
+
+::: {.r-stack}
+```yaml
+ # Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    variables:
+      - $SCRATCH_DISABLED
+      - $TEST_DISABLED
+  only:
+    variables:
+      - $FORCE_DEVELOP_RUN
+      - $FORCE_MASTER_RUN
+      - $FORCE_VALIDATE_MASTER
+      - $FORCE_RUN
+      - $FORCE_DEPLOY
+      - $CI_COMMIT_REF_NAME == 'test-integration'
+      - $CI_COMMIT_REF_NAME == 'develop'
+      - $CI_COMMIT_REF_NAME == 'master'
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  allow_failure: false
+  script:
+    - build_diff_files
+  artifacts:
+    paths:
+      - deploySource
+      - deploy
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+# Merges release-branch to develop
+####################################################
+integration-vp-to-develop:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  script:
+    - merge_branches origin/release/uat develop
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Merges release-branch to develop
+####################################################
+integration-develop-to-test:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'develop'
+  script:
+    - merge_branches origin/develop test-integration
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Deploys the source Package
+####################################################
+deploy-package:
+  stage: deploy-package
+  script:
+    - authenticate $FOOBAR_USERNAME $CLIENT_ID "ORG" $LOGIN_URL
+    - deploy_baz $FOOBAR_USERNAME "60"
+  rules:
+    - if: '$DEPLOY_DISABLED == "1"'
+      when: never
+    - if: '$TEST_DISABLED == "1"'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "test-integration"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "develop"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "release/uat"'
+      when: on_success
+    - if: '$FORCE_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEVELOP_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEPLOY == "1"'
+      when: on_success
+
+####################################################
+
+```
+
+![](./assets/all-red.jpg){.fragment}
+:::
+
+## {#push-and-pray background-color="black" background-size="75%" background-repeat="no-repeat" background-image="./assets/pushandpray.jpg" background-transition="fade" background-position="center"}
+
+::: footer
+(🙏 🙏)
+:::
+
+::: {.notes}
+- we complain
+- and we start pushing and praying
+:::
+
+# Enter The {background-color="black"}
+
+::: {.r-stack}
+![](./assets/dagger.avif)
+:::
+
+---
+
+<h3>How does it try to solve this problem?</h3>
+
+::: {.fragment .fade-up}
+<h3>By running your application delivery pipelines in containers</h3>
+:::
+
+::: {.notes}
+- a daggerized pipeline runs the same wether locally or on your CI provider
+:::
+
+## {#dagger-platform background-color="black" background-image="assets/Dagger-platform.avif" background-size="99%" background-transition="fade"}
+
+::: {.notes}
+- Encapsulate all your project's tasks and workflows into Functions, written in your programming language of choice.
+- Run your Functions from the command line, your language interpreter, or a custom HTTP client.
+- Package your Functions into a module, to reuse in your next project or share with the community on Daggerverse.
+- The Daggerverse is a service run by Dagger, which indexes all publicly available Dagger modules, and lets you easily search and consume them.
+- Search for existing modules, and import them into yours
+- modules can reuse each other's Functions - regardless of which language they are written in
+- the most common way to use Dagger Functions is via the Dagger CLI.
+- The Dagger CLI is a easy to use tool that can be used interactively from a terminal or via a shell script or a CI configuration.
+- Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.
+:::
+
+
+## {#dagger-engine background-color="black" background-image="assets/Dagger-Engine.avif" background-size="55%" background-transition="fade"}
+
+::: {.notes}
+- and as I said, to use Dagger, you call Dagger Functions. Functions are regular code, written in a supported programming language, that run in containers.
+- Functions let you encapsulate common operations or workflows into units with clear inputs and outputs.
+- they are the the fundamental unit of computing in Dagger
+- Usual pipeline operations, such as "pull a container image", "copy a file", "forward a TCP port", are exposed as callable Dagger Functions
+- Instead of calling a Function at a time, we can chain multiple Functions together into a dynamic pipeline, with a single call.
+:::
+
+---
+
+```go
+type MyModule struct{}
+
+// Build and publish Docker container
+func (m *MyModule) Build(
+	ctx context.Context,
+	// source code location
+	// can be local directory or remote Git repository
+	src *dagger.Directory,
+) (string, error) {
+	// build app
+	builder := dag.Container().
+		From("golang:latest").
+		WithDirectory("/src", src).
+		WithWorkdir("/src").
+		WithEnvVariable("CGO_ENABLED", "0").
+		WithExec([]string{"go", "build", "-o", "myapp"})
+
+	// publish binary on alpine base
+	prodImage := dag.Container().
+		From("alpine").
+		WithFile("/bin/myapp", builder.File("/src/myapp")).
+		WithEntrypoint([]string{"/bin/myapp"})
+
+	// publish to ttl.sh registry
+	addr, err := prodImage.Publish(ctx, "ttl.sh/myapp:latest")
+	if err != nil {
+		return "", err
+	}
+
+	return addr, nil
+}
+```
+
+::: {.notes}
+- dockerfile instructions
+:::
+
+---
+
+```typescript
+import { dag, Container, Directory, object, func } from "@dagger.io/dagger"
+
+@object()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class Ci {
+
+  /**
+   * example usage: "dagger call ci --source ."
+   */
+  @func()
+  async ci(source: Directory): Promise<string> {
+    // Use Golang module to configure project
+    var goProject = dag.golang().withProject(source)
+
+    // Run Go tests using Golang module
+    await goProject.test()
+
+    // Get container with built binaries using Golang module
+    var image = await goProject.buildContainer()
+
+    // Push image to a registry using core Dagger API
+    var ref = await image.publish("ttl.sh/demoapp:1h")
+
+    // Scan image for vulnerabilities using Trivy module
+    return dag.trivy().scanContainer(dag.container().from(ref))
+  }
+}
+```
+
+::: {.notes}
+- Vulnerabilities
+:::
+
+---
+
+```{.java code-line-numbers="|6"}
+pipeline { agent { label 'dagger' }
+  stages {
+    stage("dagger") {
+      steps {
+        sh '''
+            dagger call build
+        '''
+      }
+    }
+  }
+}
+```
+
+---
+
+```{.yaml code-line-numbers="|12"}
+name: CI
+on:
+ push:
+   branches: [main]
+
+jobs:
+ dagger:
+   name: dagger
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4
+     - run: dagger call build
+```
+
+# Why and How do I use dagger?
+
+## Tired of YAML/GROOVY/.... 
+
+::: {.fragment}
+Let's look at some Code
+(not yaml)
+:::
+
+::: footer
+(🙏 to the demo gods!)
+:::
+
+## You can check out the demo source code @
+
+[github.com/NunoFrRibeiro/personal-blog](https://github.com/NunoFrRibeiro/personal-blog/)
+
+# Obrigado!
+
+<br>
+
+[@diasapensar](https://x.com/diasapensar)
+
+[In/nunofrribeiro](https://www.linkedin.com/in/nunofrribeiro)
+
+[https://blog.nfribeiro.com](https://blog.nfribeiro.com)
+
+<br>
+
+Join Discord!
+dagger.io
+
+Try the Quickstart!
+docs.dagger.io 

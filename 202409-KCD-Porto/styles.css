@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'Cascadia Code Nerd Font';
+  src: url('./fonts/CaskaydiaMonoNerdFont-Regular.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-Bold.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-Light.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-Italic.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-ExtraLight.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-LightItalic.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-ExtraLightItalic.ttf') format('truetype'),
+    url('./fonts/CaskaydiaMonoNerdFont-BoldItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply the Nerd Font to the entire presentation */
+body, .reveal, .slides, .slide, h1, h2, h3, h4, h5, p, li, blockquote, p, li {
+  font-family: 'Cascadia Code Nerd Font', sans-serif; /* Apply the Cascadia Nerd Font */
+  font-size: 30px; /* Default font size */
+}
+
+.reveal::before {
+  content: "No more push and pray in CI/CD? Where can I sign up?";
+  font-family: 'Cascadia Code Nerd Font', sans-serif;
+  font-size: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  text-align: center;
+  padding: 10px;
+  background-color: #0086FF; /* Solid white background */
+  color: white;
+  border-bottom: 2px solid #0086FF; /* Thinner #0086FF7 line separating the header */
+  font-size: .8em;
+  z-index: 1000;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow to separate */
+}
+
+/* Add the image in the top-right corner of the footer */
+.reveal::after {
+  content: ""; /* Use the image you uploaded */
+  position: absolute;
+  background-image: url('./assets/KCD-Porto.jpeg'); /* Use the image you uploaded */
+  background-size: contain; /* Ensures the image fits within the width/height */
+  background-position: center; /* Ensure the image is centered in the container */
+  background-repeat: no-repeat;
+  top: 50px;  /* Adjust the top value to place the image */
+  right: 5px;
+  width: 100px;  /* Set the width of the image */
+  height: 100px; /* Set the height of the image */
+  z-index: 1001;
+}
