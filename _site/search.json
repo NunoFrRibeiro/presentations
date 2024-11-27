@@ -60,7 +60,56 @@
     "href": "index.html",
     "title": "Presentations",
     "section": "",
-    "text": "These are my personal slides decks for presentations.\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\nevent\n\n\n\n\n\n\n\n\n\n2026-04-09\n\n\nNo more push and pray in CI/CD? Where can I sign up?\n\n\ncicd, dagger, KCD\n\n\nKCD Porto\n\n\n\n\n\n\n\n2025-12-09\n\n\nWell, it works on my machine! How we can avoid push and pray by using Dagger\n\n\ncicd, dagger, devopsdays\n\n\nDevopsDays Porto\n\n\n\n\n\nNo matching items\n\n\nThey were done using Quarto. Learn more about Quarto here."
+    "text": "These are my personal slides decks for presentations.\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\nevent\n\n\n\n\n\n\n\n\n\n2026-04-09\n\n\nNo more push and pray in CI/CD? Where can I sign up?\n\n\ncicd, dagger, KCD\n\n\nKCD Porto\n\n\n\n\n\n\n\n2026-03-11\n\n\nShip your dev environment to CI\n\n\ncicd, dagger, DevOps Port\n\n\nDevOps Porto November Meetup\n\n\n\n\n\n\n\n2025-12-09\n\n\nWell, it works on my machine! How we can avoid push and pray by using Dagger\n\n\ncicd, dagger, devopsdays\n\n\nDevopsDays Porto\n\n\n\n\n\nNo matching items\n\n\nThey were done using Quarto. Learn more about Quarto here."
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#topics-for-today",
+    "href": "202411-DevOpsPorto-Meetup/index.html#topics-for-today",
+    "title": "",
+    "section": "Topics for today",
+    "text": "Topics for today\n\nOrchestrate builds\nRun tests\nDeploy applications\n\n\n\ntwo services that run on separete environments\nlint the code\nrun units tests\nbuild containers\ndeploy containers to a registry\nbuild helm charts\ndeploy helm helm charts\ntest the charts deployment to a local kubernetes cluster"
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#ready-to-commit-that-code",
+    "href": "202411-DevOpsPorto-Meetup/index.html#ready-to-commit-that-code",
+    "title": "",
+    "section": "Ready to commit that code?",
+    "text": "Ready to commit that code?\n\n\n\nHow it starts 👉\n\nname: CI\n\non:\n  push:\n    branches: [main]\n\njobs:\n  ci:\n    name: ci\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n      - name: Setup Go\n        uses: actions/setup-go@v5\n        with:\n          go-version: '1.21.x'\n      - name: Install dependencies\n        run: go get .\n      - name: Build\n        run: go build -v ./...\n      - name: Test with the Go CLI\n        run: go test"
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#days-of-code-commits",
+    "href": "202411-DevOpsPorto-Meetup/index.html#days-of-code-commits",
+    "title": "",
+    "section": "40 days of code commits",
+    "text": "40 days of code commits\n\n\nDeveloper Environment 👉\n\nbrew install go\nbrew install\ngolangci-lint\nmake build\ntask test\njust lint\nmy-special-script.sh\ndocker compose dev"
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#days-of-code-commits-later",
+    "href": "202411-DevOpsPorto-Meetup/index.html#days-of-code-commits-later",
+    "title": "",
+    "section": "365 days of code commits later",
+    "text": "365 days of code commits later\n\n # Foobar pipeline\n# Include the Common CI pipeline parameters.\ninclude:\n  - project: 'foo/bar/foobarproject/cicdtemplate'\n    file: '/Common.gitlab-ci.yml'\n  #- /force-app/ui-tests/pipeline.yml\n\nstages:\n  - build-metadata-package\n  - run-js-tests\n  - validate-package\n  - deploy-package\n  - run-unit-tests\n  - run-api-tests\n  - run-ui-tests\n  - integration\n\n####################################################\n# Builds the Metadata Package, builds the Package\n# files and Destructive changes\n####################################################\nbuild-metadata-package:\n  stage: build-metadata-package\n  except:\n    variables:\n      - $SCRATCH_DISABLED\n      - $TEST_DISABLED\n  only:\n    variables:\n      - $FORCE_DEVELOP_RUN\n      - $FORCE_MASTER_RUN\n      - $FORCE_VALIDATE_MASTER\n      - $FORCE_RUN\n      - $FORCE_DEPLOY\n      - $CI_COMMIT_REF_NAME == 'test-integration'\n      - $CI_COMMIT_REF_NAME == 'develop'\n      - $CI_COMMIT_REF_NAME == 'master'\n      - $CI_COMMIT_REF_NAME == 'release/uat'\n  allow_failure: false\n  script:\n    - build_diff_files\n  artifacts:\n    paths:\n      - deploySource\n      - deploy\n  environment:\n    name: foobarproject/$CI_COMMIT_REF_SLUG\n\n# Merges release-branch to develop\n####################################################\nintegration-vp-to-develop:\n  stage: integration\n  only:\n    variables:\n      - $CI_COMMIT_REF_NAME == 'release/uat'\n  script:\n    - merge_branches origin/release/uat develop\n  environment:\n    name: foobarproject/$CI_COMMIT_REF_SLUG\n\n####################################################\n# Merges release-branch to develop\n####################################################\nintegration-develop-to-test:\n  stage: integration\n  only:\n    variables:\n      - $CI_COMMIT_REF_NAME == 'develop'\n  script:\n    - merge_branches origin/develop test-integration\n  environment:\n    name: foobarproject/$CI_COMMIT_REF_SLUG\n\n####################################################\n# Deploys the source Package\n####################################################\ndeploy-package:\n  stage: deploy-package\n  script:\n    - authenticate $FOOBAR_USERNAME $CLIENT_ID \"ORG\" $LOGIN_URL\n    - deploy_baz $FOOBAR_USERNAME \"60\"\n  rules:\n    - if: '$DEPLOY_DISABLED == \"1\"'\n      when: never\n    - if: '$TEST_DISABLED == \"1\"'\n      when: never\n    - if: '$CI_COMMIT_REF_NAME == \"test-integration\"'\n      when: on_success\n    - if: '$CI_COMMIT_REF_NAME == \"develop\"'\n      when: on_success\n    - if: '$CI_COMMIT_REF_NAME == \"release/uat\"'\n      when: on_success\n    - if: '$FORCE_RUN == \"1\"'\n      when: on_success\n    - if: '$FORCE_DEVELOP_RUN == \"1\"'\n      when: on_success\n    - if: '$FORCE_DEPLOY == \"1\"'\n      when: on_success\n\n####################################################"
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#dagger-platform",
+    "href": "202411-DevOpsPorto-Meetup/index.html#dagger-platform",
+    "title": "",
+    "section": "",
+    "text": "Encapsulate all your project’s tasks and workflows into Functions, written in your programming language of choice.\nRun your Functions from the command line, your language interpreter, or a custom HTTP client.\nPackage your Functions into a module, to reuse next project or share with the community on Daggerverse.\nThe Daggerverse is a service run by Dagger\nSearch for existing modules, and import them into yours\nmodules can reuse each other’s Functions - regardless of which language they are written in\nthe most common way to use Dagger Functions is via the Dagger CLI.\nDagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching."
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#tired-of-yamlgroovy.",
+    "href": "202411-DevOpsPorto-Meetup/index.html#tired-of-yamlgroovy.",
+    "title": "",
+    "section": "Tired of YAML/GROOVY/….",
+    "text": "Tired of YAML/GROOVY/…."
+  },
+  {
+    "objectID": "202411-DevOpsPorto-Meetup/index.html#you-can-check-out-the-demo-source-code",
+    "href": "202411-DevOpsPorto-Meetup/index.html#you-can-check-out-the-demo-source-code",
+    "title": "",
+    "section": "You can check out the demo source code @",
+    "text": "You can check out the demo source code @\ngithub.com/NunoFrRibeiro/devops-porto-nov"
   },
   {
     "objectID": "202409-KCD-Porto/index.html#ready-to-commit-that-code",

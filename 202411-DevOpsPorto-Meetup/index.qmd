@@ -1,0 +1,427 @@
+---
+title: "Ship your dev environment to CI"
+date: "27/11/2024"
+event: "DevOps Porto November Meetup"
+eventUrl: https://www.meetup.com/devopsporto/events/304648776/
+description: |
+  Imagine having a consistent, reliable environment for your CI that mirrors your local setup perfectly. In this session, we'll explore how to create and ship Dagger pipelines written in Go that seamlessly:
+  - Orchestrate builds
+  - Run tests
+  - Deploy applications
+  All within a unified environment, ensuring your pipelines run identically — whether locally or on your preferred CI provider.
+  Discover Dagger, an open-source, portable, and programmable CI/CD engine that leverages containers to deliver consistency and portability for your workflows.
+  See how Dagger can transform the way you build, test, and deploy!
+categories: [cicd, dagger, DevOps Port]
+##image: 
+format:
+  revealjs:
+    css: styles.css
+    navigation-mode: vertical
+    slideNumber: true
+    title-slide-no-content: true
+---
+# whoami
+
+::: {.r-stack}
+
+:::: {.columns}
+
+::: {.column width="75%"}
+
+__*Nuno Ribeiro*__
+
+<br>
+
+Structural Civil Engineer over the last decade
+
+<br>
+
+DevOps Engineer @ [Cleva Solutions](https://cleva-solutions.com/)
+
+<br>
+
+2024 Dagger Commanders Batch
+
+:::
+
+::: {.column width="25%"}
+
+![](./assets/badge.jpeg){.top}
+
+:::
+
+::::
+
+:::
+
+# Ship your dev environment to CI
+
+## Topics for today
+
+  - Orchestrate builds
+  - Run tests
+  - Deploy applications
+
+::: {.notes}
+- two services that run on separete environments
+- lint the code
+- run units tests
+- build containers
+- deploy containers to a registry
+- build helm charts
+- deploy helm helm charts
+- test the charts deployment to a local kubernetes cluster
+:::
+
+# Common problems with Dev/CI environments
+## Ready to commit that code?
+
+::: {.r-stack}
+:::: {.columns}
+
+::: {.column width="40%"}
+How it starts 👉
+:::
+
+::: {.column width="60%"}
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+      - name: Install dependencies
+        run: go get .
+      - name: Build
+        run: go build -v ./...
+      - name: Test with the Go CLI
+        run: go test
+```
+
+![](./assets/all-green.jpg){.fragment}
+:::
+
+::::
+
+:::
+
+## 40 days of code commits
+
+:::: {.columns}
+
+::: {.column width="60%"}
+Developer
+Environment 👉
+:::
+
+::: {.column width="40%"}
+
+```bash
+brew install go
+brew install
+golangci-lint
+make build
+task test
+just lint
+my-special-script.sh
+docker compose dev
+```
+
+:::
+
+::::
+
+
+## 365 days of code commits later
+
+
+::: {.r-stack}
+```yaml
+ # Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    variables:
+      - $SCRATCH_DISABLED
+      - $TEST_DISABLED
+  only:
+    variables:
+      - $FORCE_DEVELOP_RUN
+      - $FORCE_MASTER_RUN
+      - $FORCE_VALIDATE_MASTER
+      - $FORCE_RUN
+      - $FORCE_DEPLOY
+      - $CI_COMMIT_REF_NAME == 'test-integration'
+      - $CI_COMMIT_REF_NAME == 'develop'
+      - $CI_COMMIT_REF_NAME == 'master'
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  allow_failure: false
+  script:
+    - build_diff_files
+  artifacts:
+    paths:
+      - deploySource
+      - deploy
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+# Merges release-branch to develop
+####################################################
+integration-vp-to-develop:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  script:
+    - merge_branches origin/release/uat develop
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Merges release-branch to develop
+####################################################
+integration-develop-to-test:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'develop'
+  script:
+    - merge_branches origin/develop test-integration
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Deploys the source Package
+####################################################
+deploy-package:
+  stage: deploy-package
+  script:
+    - authenticate $FOOBAR_USERNAME $CLIENT_ID "ORG" $LOGIN_URL
+    - deploy_baz $FOOBAR_USERNAME "60"
+  rules:
+    - if: '$DEPLOY_DISABLED == "1"'
+      when: never
+    - if: '$TEST_DISABLED == "1"'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "test-integration"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "develop"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "release/uat"'
+      when: on_success
+    - if: '$FORCE_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEVELOP_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEPLOY == "1"'
+      when: on_success
+
+####################################################
+
+```
+
+![](./assets/all-red.jpg){.fragment}
+:::
+
+# Enter The {background-color="black"}
+
+::: {.r-stack}
+![](./assets/dagger.avif)
+:::
+
+---
+
+<h3>How does it try to solve this problem?</h3>
+
+::: {.fragment .fade-up}
+<h3>By running your application delivery pipelines in containers</h3>
+:::
+
+::: {.notes}
+- a daggerized pipeline runs the same wether locally or on your CI provider
+:::
+
+## {#dagger-platform background-color="black" background-image="assets/Dagger-platform.avif" background-size="99%" background-transition="fade"}
+
+::: {.notes}
+- Encapsulate all your project's tasks and workflows into Functions, written in your programming language of choice.
+- Run your Functions from the command line, your language interpreter, or a custom HTTP client.
+- Package your Functions into a module, to reuse next project or share with the community on Daggerverse.
+- The Daggerverse is a service run by Dagger
+- Search for existing modules, and import them into yours
+- modules can reuse each other's Functions - regardless of which language they are written in
+- the most common way to use Dagger Functions is via the Dagger CLI.
+- Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.
+:::
+
+---
+
+```go
+type MyModule struct{}
+
+// Build and publish Docker container
+func (m *MyModule) Build(
+	ctx context.Context,
+	// source code location
+	// can be local directory or remote Git repository
+	src *dagger.Directory,
+) (string, error) {
+	// build app
+	builder := dag.Container().
+		From("golang:latest").
+		WithDirectory("/src", src).
+		WithWorkdir("/src").
+		WithEnvVariable("CGO_ENABLED", "0").
+		WithExec([]string{"go", "build", "-o", "myapp"})
+
+	// publish binary on alpine base
+	prodImage := dag.Container().
+		From("alpine").
+		WithFile("/bin/myapp", builder.File("/src/myapp")).
+		WithEntrypoint([]string{"/bin/myapp"})
+
+	// publish to ttl.sh registry
+	addr, err := prodImage.Publish(ctx, "ttl.sh/myapp:latest")
+	if err != nil {
+		return "", err
+	}
+
+	return addr, nil
+}
+```
+
+::: {.notes}
+- dockerfile instructions
+:::
+
+---
+
+```typescript
+import { dag, Container, Directory, object, func } from "@dagger.io/dagger"
+
+@object()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class Ci {
+
+  /**
+   * example usage: "dagger call ci --source ."
+   */
+  @func()
+  async ci(source: Directory): Promise<string> {
+    // Use Golang module to configure project
+    var goProject = dag.golang().withProject(source)
+
+    // Run Go tests using Golang module
+    await goProject.test()
+
+    // Get container with built binaries using Golang module
+    var image = await goProject.buildContainer()
+
+    // Push image to a registry using core Dagger API
+    var ref = await image.publish("ttl.sh/demoapp:1h")
+
+    // Scan image for vulnerabilities using Trivy module
+    return dag.trivy().scanContainer(dag.container().from(ref))
+  }
+}
+```
+
+::: {.notes}
+- Vulnerabilities
+:::
+
+---
+
+```{.java code-line-numbers="|6"}
+pipeline { agent { label 'dagger' }
+  stages {
+    stage("dagger") {
+      steps {
+        sh '''
+            dagger call build
+        '''
+      }
+    }
+  }
+}
+```
+
+---
+
+```{.yaml code-line-numbers="|12"}
+name: CI
+on:
+ push:
+   branches: [main]
+
+jobs:
+ dagger:
+   name: dagger
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4
+     - run: dagger call build
+```
+
+# Why and How do I use dagger?
+
+## Tired of YAML/GROOVY/.... 
+
+## You can check out the demo source code @
+
+[github.com/NunoFrRibeiro/devops-porto-nov](https://github.com/NunoFrRibeiro/devops-porto-nov)
+
+# Obrigado!
+
+<br>
+
+[@diasapensar](https://x.com/diasapensar)
+
+[@diasapensar.bsky.social](https://bsky.app/profile/diasapensar.bsky.social)
+
+[In/nunofrribeiro](https://www.linkedin.com/in/nunofrribeiro)
+
+[github/NunoFrRibeiro](https://github.com/NunoFrRibeiro)
+
+[https://blog.nfribeiro.com](https://blog.nfribeiro.com)
+
+<br>
+
+Join Discord!
+dagger.io
+
+Try the Quickstart!
+docs.dagger.io 
