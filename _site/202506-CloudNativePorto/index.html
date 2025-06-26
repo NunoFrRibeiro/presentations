@@ -10,8 +10,8 @@
   <meta name="generator" content="quarto-1.7.30">
 
   <meta name="author" content="Nuno Ribeiro">
-  <meta name="dcterms.date" content="2026-03-11">
-  <title>Ship your dev environment to CI</title>
+  <meta name="dcterms.date" content="2027-02-06">
+  <title>⚙️ A trouble solving agent for your CI</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -207,7 +207,7 @@
 <p><br></p>
 <p>Structural Civil Engineer over the last decade</p>
 <p><br></p>
-<p>DevOps Engineer @ <a href="https://cleva-solutions.com/">Cleva Solutions</a></p>
+<p>DevOps Engineer @ <a href="https://www.criticaltechworks.com/">Critical TechWorks</a></p>
 <p><br></p>
 <p>2024 Dagger Commanders Batch</p>
 </div><div class="column" style="width:25%;">
@@ -217,27 +217,20 @@
 </section>
 
 <section>
-<section id="ship-your-dev-environment-to-ci" class="title-slide slide level1 center">
-<h1>Ship your dev environment to CI</h1>
+<section id="a-trouble-solving-agent-for-your-ci" class="title-slide slide level1 center">
+<h1>⚙️ A trouble solving agent for your CI</h1>
 
 </section>
 <section id="topics-for-today" class="slide level2 center">
 <h2>Topics for today</h2>
 <ul>
-<li>Orchestrate builds</li>
-<li>Run tests</li>
-<li>Deploy applications</li>
+<li>LLM integration</li>
+<li>Run containerized agents locally</li>
+<li>Run agent in CI</li>
 </ul>
 <aside class="notes">
 <ul>
-<li>two services that run on separete environments</li>
-<li>lint the code</li>
-<li>run units tests</li>
-<li>build containers</li>
-<li>deploy containers to a registry</li>
-<li>build helm charts</li>
-<li>deploy helm helm charts</li>
-<li>test the charts deployment to a local kubernetes cluster</li>
+<li>two services that run on separate environments</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -252,169 +245,8 @@
       }</style></aside>
 </section></section>
 <section>
-<section id="common-problems-with-devci-environments" class="title-slide slide level1 center">
-<h1>Common problems with Dev/CI environments</h1>
-
-</section>
-<section id="ready-to-commit-that-code" class="slide level2 center">
-<h2>Ready to commit that code?</h2>
-<div class="r-stack">
-<div class="columns">
-<div class="column" style="width:40%;">
-<p>How it starts 👉</p>
-</div><div class="column" style="width:60%;">
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a></a><span class="fu">name</span><span class="kw">:</span><span class="at"> CI</span></span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a><span class="fu">on</span><span class="kw">:</span></span>
-<span id="cb1-4"><a></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
-<span id="cb1-5"><a></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span>
-<span id="cb1-6"><a></a></span>
-<span id="cb1-7"><a></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb1-8"><a></a><span class="at">  </span><span class="fu">ci</span><span class="kw">:</span></span>
-<span id="cb1-9"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> ci</span></span>
-<span id="cb1-10"><a></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
-<span id="cb1-11"><a></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
-<span id="cb1-12"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout repository</span></span>
-<span id="cb1-13"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
-<span id="cb1-14"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Setup Go</span></span>
-<span id="cb1-15"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/setup-go@v5</span></span>
-<span id="cb1-16"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb1-17"><a></a><span class="at">          </span><span class="fu">go-version</span><span class="kw">:</span><span class="at"> </span><span class="st">'1.21.x'</span></span>
-<span id="cb1-18"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install dependencies</span></span>
-<span id="cb1-19"><a></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> go get .</span></span>
-<span id="cb1-20"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build</span></span>
-<span id="cb1-21"><a></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> go build -v ./...</span></span>
-<span id="cb1-22"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Test with the Go CLI</span></span>
-<span id="cb1-23"><a></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> go test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><img data-src="./assets/all-green.jpg" class="fragment"></p>
-</div></div>
-</div>
-</section>
-<section id="days-of-code-commits" class="slide level2 center">
-<h2>40 days of code commits</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
-<p>Developer Environment 👉</p>
-</div><div class="column" style="width:40%;">
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="ex">brew</span> install go</span>
-<span id="cb2-2"><a></a><span class="ex">brew</span> install</span>
-<span id="cb2-3"><a></a><span class="ex">golangci-lint</span></span>
-<span id="cb2-4"><a></a><span class="fu">make</span> build</span>
-<span id="cb2-5"><a></a><span class="ex">task</span> test</span>
-<span id="cb2-6"><a></a><span class="ex">just</span> lint</span>
-<span id="cb2-7"><a></a><span class="ex">my-special-script.sh</span></span>
-<span id="cb2-8"><a></a><span class="ex">docker</span> compose dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-</section>
-<section id="days-of-code-commits-later" class="slide level2 center">
-<h2>365 days of code commits later</h2>
-<div class="r-stack">
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a></a><span class="co"> # Foobar pipeline</span></span>
-<span id="cb3-2"><a></a><span class="co"># Include the Common CI pipeline parameters.</span></span>
-<span id="cb3-3"><a></a><span class="fu">include</span><span class="kw">:</span></span>
-<span id="cb3-4"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">project</span><span class="kw">:</span><span class="at"> </span><span class="st">'foo/bar/foobarproject/cicdtemplate'</span></span>
-<span id="cb3-5"><a></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> </span><span class="st">'/Common.gitlab-ci.yml'</span></span>
-<span id="cb3-6"><a></a><span class="co">  #- /force-app/ui-tests/pipeline.yml</span></span>
-<span id="cb3-7"><a></a></span>
-<span id="cb3-8"><a></a><span class="fu">stages</span><span class="kw">:</span></span>
-<span id="cb3-9"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> build-metadata-package</span></span>
-<span id="cb3-10"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-js-tests</span></span>
-<span id="cb3-11"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> validate-package</span></span>
-<span id="cb3-12"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> deploy-package</span></span>
-<span id="cb3-13"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-unit-tests</span></span>
-<span id="cb3-14"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-api-tests</span></span>
-<span id="cb3-15"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> run-ui-tests</span></span>
-<span id="cb3-16"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> integration</span></span>
-<span id="cb3-17"><a></a></span>
-<span id="cb3-18"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-19"><a></a><span class="co"># Builds the Metadata Package, builds the Package</span></span>
-<span id="cb3-20"><a></a><span class="co"># files and Destructive changes</span></span>
-<span id="cb3-21"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-22"><a></a><span class="fu">build-metadata-package</span><span class="kw">:</span></span>
-<span id="cb3-23"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> build-metadata-package</span></span>
-<span id="cb3-24"><a></a><span class="at">  </span><span class="fu">except</span><span class="kw">:</span></span>
-<span id="cb3-25"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
-<span id="cb3-26"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $SCRATCH_DISABLED</span></span>
-<span id="cb3-27"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $TEST_DISABLED</span></span>
-<span id="cb3-28"><a></a><span class="at">  </span><span class="fu">only</span><span class="kw">:</span></span>
-<span id="cb3-29"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
-<span id="cb3-30"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_DEVELOP_RUN</span></span>
-<span id="cb3-31"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_MASTER_RUN</span></span>
-<span id="cb3-32"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_VALIDATE_MASTER</span></span>
-<span id="cb3-33"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_RUN</span></span>
-<span id="cb3-34"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $FORCE_DEPLOY</span></span>
-<span id="cb3-35"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'test-integration'</span></span>
-<span id="cb3-36"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'develop'</span></span>
-<span id="cb3-37"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'master'</span></span>
-<span id="cb3-38"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'release/uat'</span></span>
-<span id="cb3-39"><a></a><span class="at">  </span><span class="fu">allow_failure</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb3-40"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb3-41"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> build_diff_files</span></span>
-<span id="cb3-42"><a></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
-<span id="cb3-43"><a></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
-<span id="cb3-44"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> deploySource</span></span>
-<span id="cb3-45"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> deploy</span></span>
-<span id="cb3-46"><a></a><span class="at">  </span><span class="fu">environment</span><span class="kw">:</span></span>
-<span id="cb3-47"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> foobarproject/$CI_COMMIT_REF_SLUG</span></span>
-<span id="cb3-48"><a></a></span>
-<span id="cb3-49"><a></a><span class="co"># Merges release-branch to develop</span></span>
-<span id="cb3-50"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-51"><a></a><span class="fu">integration-vp-to-develop</span><span class="kw">:</span></span>
-<span id="cb3-52"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> integration</span></span>
-<span id="cb3-53"><a></a><span class="at">  </span><span class="fu">only</span><span class="kw">:</span></span>
-<span id="cb3-54"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
-<span id="cb3-55"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'release/uat'</span></span>
-<span id="cb3-56"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb3-57"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> merge_branches origin/release/uat develop</span></span>
-<span id="cb3-58"><a></a><span class="at">  </span><span class="fu">environment</span><span class="kw">:</span></span>
-<span id="cb3-59"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> foobarproject/$CI_COMMIT_REF_SLUG</span></span>
-<span id="cb3-60"><a></a></span>
-<span id="cb3-61"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-62"><a></a><span class="co"># Merges release-branch to develop</span></span>
-<span id="cb3-63"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-64"><a></a><span class="fu">integration-develop-to-test</span><span class="kw">:</span></span>
-<span id="cb3-65"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> integration</span></span>
-<span id="cb3-66"><a></a><span class="at">  </span><span class="fu">only</span><span class="kw">:</span></span>
-<span id="cb3-67"><a></a><span class="at">    </span><span class="fu">variables</span><span class="kw">:</span></span>
-<span id="cb3-68"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> $CI_COMMIT_REF_NAME == 'develop'</span></span>
-<span id="cb3-69"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb3-70"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> merge_branches origin/develop test-integration</span></span>
-<span id="cb3-71"><a></a><span class="at">  </span><span class="fu">environment</span><span class="kw">:</span></span>
-<span id="cb3-72"><a></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> foobarproject/$CI_COMMIT_REF_SLUG</span></span>
-<span id="cb3-73"><a></a></span>
-<span id="cb3-74"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-75"><a></a><span class="co"># Deploys the source Package</span></span>
-<span id="cb3-76"><a></a><span class="co">####################################################</span></span>
-<span id="cb3-77"><a></a><span class="fu">deploy-package</span><span class="kw">:</span></span>
-<span id="cb3-78"><a></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> deploy-package</span></span>
-<span id="cb3-79"><a></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb3-80"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> authenticate $FOOBAR_USERNAME $CLIENT_ID "ORG" $LOGIN_URL</span></span>
-<span id="cb3-81"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> deploy_baz $FOOBAR_USERNAME "60"</span></span>
-<span id="cb3-82"><a></a><span class="at">  </span><span class="fu">rules</span><span class="kw">:</span></span>
-<span id="cb3-83"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$DEPLOY_DISABLED == "1"'</span></span>
-<span id="cb3-84"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> never</span></span>
-<span id="cb3-85"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$TEST_DISABLED == "1"'</span></span>
-<span id="cb3-86"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> never</span></span>
-<span id="cb3-87"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$CI_COMMIT_REF_NAME == "test-integration"'</span></span>
-<span id="cb3-88"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
-<span id="cb3-89"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$CI_COMMIT_REF_NAME == "develop"'</span></span>
-<span id="cb3-90"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
-<span id="cb3-91"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$CI_COMMIT_REF_NAME == "release/uat"'</span></span>
-<span id="cb3-92"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
-<span id="cb3-93"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$FORCE_RUN == "1"'</span></span>
-<span id="cb3-94"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
-<span id="cb3-95"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$FORCE_DEVELOP_RUN == "1"'</span></span>
-<span id="cb3-96"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
-<span id="cb3-97"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> </span><span class="st">'$FORCE_DEPLOY == "1"'</span></span>
-<span id="cb3-98"><a></a><span class="at">      </span><span class="fu">when</span><span class="kw">:</span><span class="at"> on_success</span></span>
-<span id="cb3-99"><a></a></span>
-<span id="cb3-100"><a></a><span class="co">####################################################</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><img data-src="./assets/all-red.jpg" class="fragment"></p>
-</div>
-</section></section>
-<section>
-<section id="enter-the" class="title-slide slide level1 center" data-background-color="black">
-<h1>Enter The</h1>
+<section id="have-you-heard-about" class="title-slide slide level1 center" data-background-color="black">
+<h1>Have you heard about</h1>
 <div class="r-stack">
 <p><img data-src="./assets/dagger.avif"></p>
 </div>
@@ -422,16 +254,24 @@
 <section class="slide level2 center">
 
 <h3>
-How does it try to solve this problem?
+What is Dagger?
 </h3>
 <div class="fragment fade-up">
 <h3>
-By running your application delivery pipelines in containers
+Dagger is an open-source runtime for composable workflows
+</h3>
+</div>
+<div class="fragment fade-up">
+<h3>
+It runs your application delivery pipelines in containers
 </h3>
 </div>
 <aside class="notes">
 <ul>
 <li>a daggerized pipeline runs the same wether locally or on your CI provider</li>
+<li>Encapsulate all your project’s tasks and workflows into Functions, written in your programming language of choice.</li>
+<li>Run your Functions from the command line, your language interpreter, or a custom HTTP client.</li>
+<li>Package your Functions into a module, to reuse next project or share with the community on Daggerverse.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -449,9 +289,27 @@ By running your application delivery pipelines in containers
 <h2></h2>
 <aside class="notes">
 <ul>
-<li>Encapsulate all your project’s tasks and workflows into Functions, written in your programming language of choice.</li>
-<li>Run your Functions from the command line, your language interpreter, or a custom HTTP client.</li>
-<li>Package your Functions into a module, to reuse next project or share with the community on Daggerverse.</li>
+<li>Dagger Engine</li>
+<li>CLI</li>
+<li>Client libraries</li>
+<li>SDK</li>
+<li>Modules</li>
+<li>Dagger Cloud</li>
+<li>The Daggerverse</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside class="notes">
+<ul>
 <li>The Daggerverse is a service run by Dagger</li>
 <li>Search for existing modules, and import them into yours</li>
 <li>modules can reuse each other’s Functions - regardless of which language they are written in</li>
@@ -472,40 +330,39 @@ By running your application delivery pipelines in containers
 </section>
 <section class="slide level2 center">
 
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource go number-lines code-with-copy"><code class="sourceCode go"><span id="cb4-1"><a></a><span class="kw">type</span> MyModule <span class="kw">struct</span><span class="op">{}</span></span>
-<span id="cb4-2"><a></a></span>
-<span id="cb4-3"><a></a><span class="co">// Build and publish Docker container</span></span>
-<span id="cb4-4"><a></a><span class="kw">func</span> <span class="op">(</span>m <span class="op">*</span>MyModule<span class="op">)</span> Build<span class="op">(</span></span>
-<span id="cb4-5"><a></a>    ctx context<span class="op">.</span>Context<span class="op">,</span></span>
-<span id="cb4-6"><a></a>    <span class="co">// source code location</span></span>
-<span id="cb4-7"><a></a>    <span class="co">// can be local directory or remote Git repository</span></span>
-<span id="cb4-8"><a></a>    src <span class="op">*</span>dagger<span class="op">.</span>Directory<span class="op">,</span></span>
-<span id="cb4-9"><a></a><span class="op">)</span> <span class="op">(</span><span class="dt">string</span><span class="op">,</span> <span class="dt">error</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-10"><a></a>    <span class="co">// build app</span></span>
-<span id="cb4-11"><a></a>    builder <span class="op">:=</span> dag<span class="op">.</span>Container<span class="op">().</span></span>
-<span id="cb4-12"><a></a>        From<span class="op">(</span><span class="st">"golang:latest"</span><span class="op">).</span></span>
-<span id="cb4-13"><a></a>        WithDirectory<span class="op">(</span><span class="st">"/src"</span><span class="op">,</span> src<span class="op">).</span></span>
-<span id="cb4-14"><a></a>        WithWorkdir<span class="op">(</span><span class="st">"/src"</span><span class="op">).</span></span>
-<span id="cb4-15"><a></a>        WithEnvVariable<span class="op">(</span><span class="st">"CGO_ENABLED"</span><span class="op">,</span> <span class="st">"0"</span><span class="op">).</span></span>
-<span id="cb4-16"><a></a>        WithExec<span class="op">([]</span><span class="dt">string</span><span class="op">{</span><span class="st">"go"</span><span class="op">,</span> <span class="st">"build"</span><span class="op">,</span> <span class="st">"-o"</span><span class="op">,</span> <span class="st">"myapp"</span><span class="op">})</span></span>
-<span id="cb4-17"><a></a></span>
-<span id="cb4-18"><a></a>    <span class="co">// publish binary on alpine base</span></span>
-<span id="cb4-19"><a></a>    prodImage <span class="op">:=</span> dag<span class="op">.</span>Container<span class="op">().</span></span>
-<span id="cb4-20"><a></a>        From<span class="op">(</span><span class="st">"alpine"</span><span class="op">).</span></span>
-<span id="cb4-21"><a></a>        WithFile<span class="op">(</span><span class="st">"/bin/myapp"</span><span class="op">,</span> builder<span class="op">.</span>File<span class="op">(</span><span class="st">"/src/myapp"</span><span class="op">)).</span></span>
-<span id="cb4-22"><a></a>        WithEntrypoint<span class="op">([]</span><span class="dt">string</span><span class="op">{</span><span class="st">"/bin/myapp"</span><span class="op">})</span></span>
-<span id="cb4-23"><a></a></span>
-<span id="cb4-24"><a></a>    <span class="co">// publish to ttl.sh registry</span></span>
-<span id="cb4-25"><a></a>    addr<span class="op">,</span> err <span class="op">:=</span> prodImage<span class="op">.</span>Publish<span class="op">(</span>ctx<span class="op">,</span> <span class="st">"ttl.sh/myapp:latest"</span><span class="op">)</span></span>
-<span id="cb4-26"><a></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb4-27"><a></a>        <span class="cf">return</span> <span class="st">""</span><span class="op">,</span> err</span>
-<span id="cb4-28"><a></a>    <span class="op">}</span></span>
-<span id="cb4-29"><a></a></span>
-<span id="cb4-30"><a></a>    <span class="cf">return</span> addr<span class="op">,</span> <span class="ot">nil</span></span>
-<span id="cb4-31"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource go number-lines code-with-copy"><code class="sourceCode go"><span id="cb1-1"><a></a><span class="kw">package</span> main</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb1-4"><a></a>    <span class="st">"context"</span></span>
+<span id="cb1-5"><a></a>    <span class="st">"dagger/my-module/internal/dagger"</span></span>
+<span id="cb1-6"><a></a><span class="op">)</span></span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a><span class="kw">type</span> MyModule <span class="kw">struct</span><span class="op">{}</span></span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="kw">func</span> <span class="op">(</span>m <span class="op">*</span>MyModule<span class="op">)</span> Build<span class="op">(</span></span>
+<span id="cb1-11"><a></a>    ctx context<span class="op">.</span>Context<span class="op">,</span></span>
+<span id="cb1-12"><a></a>    src <span class="op">*</span>dagger<span class="op">.</span>Directory<span class="op">,</span></span>
+<span id="cb1-13"><a></a>    arch <span class="dt">string</span><span class="op">,</span></span>
+<span id="cb1-14"><a></a>    os <span class="dt">string</span><span class="op">,</span></span>
+<span id="cb1-15"><a></a><span class="op">)</span> <span class="op">*</span>dagger<span class="op">.</span>Container <span class="op">{</span></span>
+<span id="cb1-16"><a></a>    <span class="cf">return</span> dag<span class="op">.</span>Container<span class="op">().</span></span>
+<span id="cb1-17"><a></a>        From<span class="op">(</span><span class="st">"golang:1.21"</span><span class="op">).</span></span>
+<span id="cb1-18"><a></a>        WithMountedDirectory<span class="op">(</span><span class="st">"/src"</span><span class="op">,</span> src<span class="op">).</span></span>
+<span id="cb1-19"><a></a>        WithWorkdir<span class="op">(</span><span class="st">"/src"</span><span class="op">).</span></span>
+<span id="cb1-20"><a></a>        WithEnvVariable<span class="op">(</span><span class="st">"GOARCH"</span><span class="op">,</span> arch<span class="op">).</span></span>
+<span id="cb1-21"><a></a>        WithEnvVariable<span class="op">(</span><span class="st">"GOOS"</span><span class="op">,</span> os<span class="op">).</span></span>
+<span id="cb1-22"><a></a>        WithEnvVariable<span class="op">(</span><span class="st">"CGO_ENABLED"</span><span class="op">,</span> <span class="st">"0"</span><span class="op">).</span></span>
+<span id="cb1-23"><a></a>        WithExec<span class="op">([]</span><span class="dt">string</span><span class="op">{</span><span class="st">"go"</span><span class="op">,</span> <span class="st">"build"</span><span class="op">,</span> <span class="st">"-o"</span><span class="op">,</span> <span class="st">"build/"</span><span class="op">})</span></span>
+<span id="cb1-24"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <aside class="notes">
 <ul>
-<li>dockerfile instructions</li>
+<li>lint the code</li>
+<li>run units tests</li>
+<li>build containers</li>
+<li>deploy containers to a registry</li>
+<li>build helm charts</li>
+<li>deploy helm helm charts</li>
+<li>test the charts deployment to a local kubernetes cluster</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -521,48 +378,105 @@ By running your application delivery pipelines in containers
 </section>
 <section class="slide level2 center">
 
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a></a><span class="im">import</span> { dag<span class="op">,</span> Container<span class="op">,</span> Directory<span class="op">,</span> <span class="kw">object</span><span class="op">,</span> func } <span class="im">from</span> <span class="st">"@dagger.io/dagger"</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb2-1"><a></a><span class="im">import</span> { dag<span class="op">,</span> <span class="kw">object</span><span class="op">,</span> Directory<span class="op">,</span> Container<span class="op">,</span> func } <span class="im">from</span> <span class="st">"@dagger.io/dagger"</span></span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a>@<span class="fu">object</span>()</span>
+<span id="cb2-4"><a></a><span class="kw">class</span> MyModule {</span>
+<span id="cb2-5"><a></a>  @<span class="fu">func</span>()</span>
+<span id="cb2-6"><a></a>  <span class="fu">build</span>(src<span class="op">:</span> Directory<span class="op">,</span> arch<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> os<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> Container {</span>
+<span id="cb2-7"><a></a>    <span class="cf">return</span> dag</span>
+<span id="cb2-8"><a></a>      <span class="op">.</span><span class="fu">container</span>()</span>
+<span id="cb2-9"><a></a>      <span class="op">.</span><span class="fu">from</span>(<span class="st">"golang:1.21"</span>)</span>
+<span id="cb2-10"><a></a>      <span class="op">.</span><span class="fu">withMountedDirectory</span>(<span class="st">"/src"</span><span class="op">,</span> src)</span>
+<span id="cb2-11"><a></a>      <span class="op">.</span><span class="fu">withWorkdir</span>(<span class="st">"/src"</span>)</span>
+<span id="cb2-12"><a></a>      <span class="op">.</span><span class="fu">withEnvVariable</span>(<span class="st">"GOARCH"</span><span class="op">,</span> arch)</span>
+<span id="cb2-13"><a></a>      <span class="op">.</span><span class="fu">withEnvVariable</span>(<span class="st">"GOOS"</span><span class="op">,</span> os)</span>
+<span id="cb2-14"><a></a>      <span class="op">.</span><span class="fu">withEnvVariable</span>(<span class="st">"CGO_ENABLED"</span><span class="op">,</span> <span class="st">"0"</span>)</span>
+<span id="cb2-15"><a></a>      <span class="op">.</span><span class="fu">withExec</span>([<span class="st">"go"</span><span class="op">,</span> <span class="st">"build"</span><span class="op">,</span> <span class="st">"-o"</span><span class="op">,</span> <span class="st">"build/"</span>])</span>
+<span id="cb2-16"><a></a>  }</span>
+<span id="cb2-17"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">import</span> dagger</span>
+<span id="cb3-2"><a></a><span class="im">from</span> dagger <span class="im">import</span> dag, function, object_type</span>
+<span id="cb3-3"><a></a></span>
+<span id="cb3-4"><a></a></span>
+<span id="cb3-5"><a></a><span class="at">@object_type</span></span>
+<span id="cb3-6"><a></a><span class="kw">class</span> MyModule:</span>
+<span id="cb3-7"><a></a>    <span class="at">@function</span></span>
+<span id="cb3-8"><a></a>    <span class="kw">def</span> build(<span class="va">self</span>, src: dagger.Directory, arch: <span class="bu">str</span>, os: <span class="bu">str</span>) <span class="op">-&gt;</span> dagger.Container:</span>
+<span id="cb3-9"><a></a>        <span class="cf">return</span> (</span>
+<span id="cb3-10"><a></a>            dag.container()</span>
+<span id="cb3-11"><a></a>            .from_(<span class="st">"golang:1.21"</span>)</span>
+<span id="cb3-12"><a></a>            .with_mounted_directory(<span class="st">"/src"</span>, src)</span>
+<span id="cb3-13"><a></a>            .with_workdir(<span class="st">"/src"</span>)</span>
+<span id="cb3-14"><a></a>            .with_env_variable(<span class="st">"GOARCH"</span>, arch)</span>
+<span id="cb3-15"><a></a>            .with_env_variable(<span class="st">"GOOS"</span>, os)</span>
+<span id="cb3-16"><a></a>            .with_env_variable(<span class="st">"CGO_ENABLED"</span>, <span class="st">"0"</span>)</span>
+<span id="cb3-17"><a></a>            .with_exec([<span class="st">"go"</span>, <span class="st">"build"</span>, <span class="st">"-o"</span>, <span class="st">"build/"</span>])</span>
+<span id="cb3-18"><a></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource php number-lines code-with-copy"><code class="sourceCode php"><span id="cb4-1"><a></a><span class="kw">&lt;?php</span></span>
+<span id="cb4-2"><a></a></span>
+<span id="cb4-3"><a></a><span class="kw">declare</span>(strict_types<span class="op">=</span><span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb4-4"><a></a></span>
+<span id="cb4-5"><a></a><span class="kw">namespace</span> DaggerModule<span class="ot">;</span></span>
+<span id="cb4-6"><a></a></span>
+<span id="cb4-7"><a></a><span class="kw">use</span> Dagger\Attribute\{DaggerFunction<span class="ot">,</span> DaggerObject}<span class="ot">;</span></span>
+<span id="cb4-8"><a></a><span class="kw">use</span> Dagger\{Container<span class="ot">,</span> <span class="bu">Directory</span>}<span class="ot">;</span></span>
+<span id="cb4-9"><a></a></span>
+<span id="cb4-10"><a></a><span class="kw">use</span> <span class="kw">function</span> Dagger\dag<span class="ot">;</span></span>
+<span id="cb4-11"><a></a></span>
+<span id="cb4-12"><a></a><span class="at">#[</span>DaggerObject<span class="at">]</span></span>
+<span id="cb4-13"><a></a><span class="kw">class</span> MyModule</span>
+<span id="cb4-14"><a></a>{</span>
+<span id="cb4-15"><a></a>    <span class="at">#[</span>DaggerFunction<span class="at">]</span></span>
+<span id="cb4-16"><a></a>    <span class="kw">public</span> <span class="kw">function</span> build(</span>
+<span id="cb4-17"><a></a>        <span class="bu">Directory</span> <span class="va">$src</span><span class="ot">,</span></span>
+<span id="cb4-18"><a></a>        <span class="dt">string</span> <span class="va">$arch</span><span class="ot">,</span></span>
+<span id="cb4-19"><a></a>        <span class="dt">string</span> <span class="va">$os</span><span class="ot">,</span></span>
+<span id="cb4-20"><a></a>    )<span class="ot">:</span> Container {</span>
+<span id="cb4-21"><a></a>        <span class="cf">return</span> dag()</span>
+<span id="cb4-22"><a></a>            -&gt;container()</span>
+<span id="cb4-23"><a></a>            -&gt;from(<span class="st">'golang:1.21'</span>)</span>
+<span id="cb4-24"><a></a>            -&gt;withMountedDirectory(<span class="st">'/src'</span><span class="ot">,</span> <span class="va">$src</span>)</span>
+<span id="cb4-25"><a></a>            -&gt;withWorkdir(<span class="st">'/src'</span>)</span>
+<span id="cb4-26"><a></a>            -&gt;withEnvVariable(<span class="st">'GOARCH'</span><span class="ot">,</span> <span class="va">$arch</span>)</span>
+<span id="cb4-27"><a></a>            -&gt;withEnvVariable(<span class="st">'GOOS'</span><span class="ot">,</span> <span class="va">$os</span>)</span>
+<span id="cb4-28"><a></a>            -&gt;withEnvVariable(<span class="st">'CGO_ENABLED'</span><span class="ot">,</span> <span class="st">'0'</span>)</span>
+<span id="cb4-29"><a></a>            -&gt;withExec([<span class="st">'go'</span><span class="ot">,</span> <span class="st">'build'</span><span class="ot">,</span> <span class="st">'-o'</span><span class="ot">,</span> <span class="st">'build/'</span>])<span class="ot">;</span></span>
+<span id="cb4-30"><a></a>    }</span>
+<span id="cb4-31"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource java number-lines code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a></a><span class="kw">package</span><span class="im"> io</span><span class="op">.</span><span class="im">dagger</span><span class="op">.</span><span class="im">modules</span><span class="op">.</span><span class="im">mymodule</span><span class="op">;</span></span>
 <span id="cb5-2"><a></a></span>
-<span id="cb5-3"><a></a>@<span class="fu">object</span>()</span>
-<span id="cb5-4"><a></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-unused-vars</span></span>
-<span id="cb5-5"><a></a><span class="kw">class</span> Ci {</span>
-<span id="cb5-6"><a></a></span>
-<span id="cb5-7"><a></a>  <span class="co">/**</span></span>
-<span id="cb5-8"><a></a><span class="co">   * example usage: "dagger call ci --source ."</span></span>
-<span id="cb5-9"><a></a><span class="co">   */</span></span>
-<span id="cb5-10"><a></a>  @<span class="fu">func</span>()</span>
-<span id="cb5-11"><a></a>  <span class="kw">async</span> <span class="fu">ci</span>(source<span class="op">:</span> Directory)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
-<span id="cb5-12"><a></a>    <span class="co">// Use Golang module to configure project</span></span>
-<span id="cb5-13"><a></a>    <span class="kw">var</span> goProject <span class="op">=</span> dag<span class="op">.</span><span class="fu">golang</span>()<span class="op">.</span><span class="fu">withProject</span>(source)</span>
-<span id="cb5-14"><a></a></span>
-<span id="cb5-15"><a></a>    <span class="co">// Run Go tests using Golang module</span></span>
-<span id="cb5-16"><a></a>    <span class="cf">await</span> goProject<span class="op">.</span><span class="fu">test</span>()</span>
-<span id="cb5-17"><a></a></span>
-<span id="cb5-18"><a></a>    <span class="co">// Get container with built binaries using Golang module</span></span>
-<span id="cb5-19"><a></a>    <span class="kw">var</span> image <span class="op">=</span> <span class="cf">await</span> goProject<span class="op">.</span><span class="fu">buildContainer</span>()</span>
-<span id="cb5-20"><a></a></span>
-<span id="cb5-21"><a></a>    <span class="co">// Push image to a registry using core Dagger API</span></span>
-<span id="cb5-22"><a></a>    <span class="kw">var</span> ref <span class="op">=</span> <span class="cf">await</span> image<span class="op">.</span><span class="fu">publish</span>(<span class="st">"ttl.sh/demoapp:1h"</span>)</span>
-<span id="cb5-23"><a></a></span>
-<span id="cb5-24"><a></a>    <span class="co">// Scan image for vulnerabilities using Trivy module</span></span>
-<span id="cb5-25"><a></a>    <span class="cf">return</span> dag<span class="op">.</span><span class="fu">trivy</span>()<span class="op">.</span><span class="fu">scanContainer</span>(dag<span class="op">.</span><span class="fu">container</span>()<span class="op">.</span><span class="fu">from</span>(ref))</span>
-<span id="cb5-26"><a></a>  }</span>
-<span id="cb5-27"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<aside class="notes">
-<ul>
-<li>Vulnerabilities</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<span id="cb5-3"><a></a><span class="kw">import</span> <span class="kw">static</span><span class="im"> io</span><span class="op">.</span><span class="im">dagger</span><span class="op">.</span><span class="im">client</span><span class="op">.</span><span class="im">Dagger</span><span class="op">.</span><span class="im">dag</span><span class="op">;</span></span>
+<span id="cb5-4"><a></a></span>
+<span id="cb5-5"><a></a><span class="kw">import</span> <span class="im">io</span><span class="op">.</span><span class="im">dagger</span><span class="op">.</span><span class="im">client</span><span class="op">.</span><span class="im">Container</span><span class="op">;</span></span>
+<span id="cb5-6"><a></a><span class="kw">import</span> <span class="im">io</span><span class="op">.</span><span class="im">dagger</span><span class="op">.</span><span class="im">client</span><span class="op">.</span><span class="im">Directory</span><span class="op">;</span></span>
+<span id="cb5-7"><a></a><span class="kw">import</span> <span class="im">io</span><span class="op">.</span><span class="im">dagger</span><span class="op">.</span><span class="im">module</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">Function</span><span class="op">;</span></span>
+<span id="cb5-8"><a></a><span class="kw">import</span> <span class="im">io</span><span class="op">.</span><span class="im">dagger</span><span class="op">.</span><span class="im">module</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">Object</span><span class="op">;</span></span>
+<span id="cb5-9"><a></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">List</span><span class="op">;</span></span>
+<span id="cb5-10"><a></a></span>
+<span id="cb5-11"><a></a><span class="at">@Object</span></span>
+<span id="cb5-12"><a></a><span class="kw">public</span> <span class="kw">class</span> MyModule <span class="op">{</span></span>
+<span id="cb5-13"><a></a>  <span class="at">@Function</span></span>
+<span id="cb5-14"><a></a>  <span class="kw">public</span> <span class="bu">Container</span> <span class="fu">build</span><span class="op">(</span>Directory src<span class="op">,</span> <span class="bu">String</span> arch<span class="op">,</span> <span class="bu">String</span> os<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-15"><a></a>    <span class="cf">return</span> <span class="fu">dag</span><span class="op">().</span><span class="fu">container</span><span class="op">()</span></span>
+<span id="cb5-16"><a></a>        <span class="op">.</span><span class="fu">from</span><span class="op">(</span><span class="st">"golang:1.21"</span><span class="op">)</span></span>
+<span id="cb5-17"><a></a>        <span class="op">.</span><span class="fu">withMountedDirectory</span><span class="op">(</span><span class="st">"/src"</span><span class="op">,</span> src<span class="op">)</span></span>
+<span id="cb5-18"><a></a>        <span class="op">.</span><span class="fu">withWorkdir</span><span class="op">(</span><span class="st">"/src"</span><span class="op">)</span></span>
+<span id="cb5-19"><a></a>        <span class="op">.</span><span class="fu">withEnvVariable</span><span class="op">(</span><span class="st">"GOARCH"</span><span class="op">,</span> arch<span class="op">)</span></span>
+<span id="cb5-20"><a></a>        <span class="op">.</span><span class="fu">withEnvVariable</span><span class="op">(</span><span class="st">"GOOS"</span><span class="op">,</span> os<span class="op">)</span></span>
+<span id="cb5-21"><a></a>        <span class="op">.</span><span class="fu">withEnvVariable</span><span class="op">(</span><span class="st">"CGO_ENABLED"</span><span class="op">,</span> <span class="st">"0"</span><span class="op">)</span></span>
+<span id="cb5-22"><a></a>        <span class="op">.</span><span class="fu">withExec</span><span class="op">(</span><span class="bu">List</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">"go"</span><span class="op">,</span> <span class="st">"build"</span><span class="op">,</span> <span class="st">"-o"</span><span class="op">,</span> <span class="st">"build/"</span><span class="op">));</span></span>
+<span id="cb5-23"><a></a>  <span class="op">}</span></span>
+<span id="cb5-24"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section class="slide level2 center">
 
@@ -594,19 +508,41 @@ By running your application delivery pipelines in containers
 <span id="cb7-12"><a></a><span class="at">     </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> dagger call build</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section>
-<section id="why-and-how-do-i-use-dagger" class="title-slide slide level1 center">
-<h1>Why and How do I use dagger?</h1>
+<section id="llm-integration" class="title-slide slide level1 center">
+<h1>LLM integration</h1>
 
 </section>
-<section id="tired-of-yamlgroovy." class="slide level2 center">
-<h2>Tired of YAML/GROOVY/….</h2>
+<section class="slide level2 center">
+
+
+<img data-src="./assets/llm-env.svg" class="r-stretch"><aside class="notes">
+<p>A key feature of Dagger’s LLM integration is out-of-the-box support for tool use using Dagger Functions: an LLM can automatically discover and use any available Dagger Functions in the provided environment.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center">
+
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a></a><span class="va">base</span><span class="op">=</span><span class="va">$(</span><span class="ex">container</span> <span class="kw">|</span> <span class="ex">from</span> alpine<span class="va">)</span></span>
+<span id="cb8-2"><a></a><span class="va">env</span><span class="op">=</span><span class="va">$(</span><span class="fu">env</span> <span class="kw">|</span> <span class="ex">with-container-input</span> <span class="st">'base'</span> <span class="va">$base</span> <span class="st">'a base container'</span> <span class="kw">|</span> <span class="ex">with-container-output</span> <span class="st">'python-dev'</span> <span class="st">'a container with python dev tools'</span><span class="va">)</span></span>
+<span id="cb8-3"><a></a><span class="ex">llm</span> <span class="kw">|</span> <span class="ex">with-env</span> <span class="va">$env</span> <span class="kw">|</span> <span class="ex">with-prompt</span> <span class="st">"You have an alpine container. Install tools to develop with Python."</span> <span class="kw">|</span> <span class="fu">env</span> <span class="kw">|</span> <span class="ex">output</span> python-dev <span class="kw">|</span> <span class="ex">as-container</span> <span class="kw">|</span> <span class="ex">terminal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="obrigado" class="title-slide slide level1 center">
+<h1>Obrigado!</h1>
+
 </section>
 <section id="you-can-check-out-the-demo-source-code" class="slide level2 center">
 <h2>You can check out the demo source code @</h2>
 <p><a href="https://github.com/NunoFrRibeiro/devops-porto-nov">github.com/NunoFrRibeiro/devops-porto-nov</a></p>
-</section></section>
-<section id="obrigado" class="title-slide slide level1 center">
-<h1>Obrigado!</h1>
 <p><br></p>
 <p><a href="https://x.com/diasapensar"><span class="citation" data-cites="diasapensar">@diasapensar</span></a></p>
 <p><a href="https://bsky.app/profile/diasapensar.bsky.social"><span class="citation" data-cites="diasapensar.bsky.social">@diasapensar.bsky.social</span></a></p>
@@ -618,7 +554,7 @@ By running your application delivery pipelines in containers
 <p>Try the Quickstart! docs.dagger.io</p>
 
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
