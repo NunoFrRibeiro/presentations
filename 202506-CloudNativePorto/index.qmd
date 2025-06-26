@@ -1,0 +1,334 @@
+---
+title: "⚙️ A trouble solving agent for your CI"
+date: "26/06/2025"
+event: "DevOps Porto November Meetup"
+eventUrl: https://community.cncf.io/events/details/cncf-cloud-native-porto-presents-4-cloud-native-porto-sao-joao-goes-cloud-native/
+description: |
+  What if we could containerize our AI agents to solve issues with our PRs?
+  With Dagger we can containerize an AI agent that can assist failing tests and create a solution to issues, enabling developers to quickly solve issues in CI that block our workflow and the delivery of software.
+categories: [cicd, dagger, DevOps Port]
+##image: 
+format:
+  revealjs:
+    css: styles.css
+    navigation-mode: vertical
+    slideNumber: true
+    title-slide-no-content: true
+---
+# whoami
+
+::: {.r-stack}
+
+:::: {.columns}
+
+::: {.column width="75%"}
+
+__*Nuno Ribeiro*__
+
+<br>
+
+Structural Civil Engineer over the last decade
+
+<br>
+
+DevOps Engineer @ [Critical TechWorks](https://www.criticaltechworks.com/)
+
+<br>
+
+2024 Dagger Commanders Batch
+
+:::
+
+::: {.column width="25%"}
+
+![](./assets/badge.jpeg){.top}
+
+:::
+
+::::
+
+:::
+
+# ⚙️ A trouble solving agent for your CI
+
+## Topics for today
+
+  - LLM integration
+  - Run containerized agents locally
+  - Run agent in CI
+
+::: {.notes}
+- two services that run on separate environments
+:::
+
+# Have you heard about {background-color="black"}
+
+::: {.r-stack}
+![](./assets/dagger.avif)
+:::
+
+---
+
+<h3>What is Dagger?</h3>
+
+::: {.fragment .fade-up}
+<h3>Dagger is an open-source runtime for composable workflows</h3>
+:::
+
+::: {.fragment .fade-up}
+<h3>It runs your application delivery pipelines in containers</h3>
+:::
+
+::: {.notes}
+- a daggerized pipeline runs the same wether locally or on your CI provider
+- Encapsulate all your project's tasks and workflows into Functions, written in your programming language of choice.
+- Run your Functions from the command line, your language interpreter, or a custom HTTP client.
+- Package your Functions into a module, to reuse next project or share with the community on Daggerverse.
+:::
+
+## {#dagger-platform background-color="black" background-image="assets/Dagger-platform.avif" background-size="99%" background-transition="fade"}
+
+::: {.notes}
+- Dagger Engine
+- CLI
+- Client libraries
+- SDK
+- Modules
+- Dagger Cloud
+- The Daggerverse
+:::
+
+::: {.notes}
+- The Daggerverse is a service run by Dagger
+- Search for existing modules, and import them into yours
+- modules can reuse each other's Functions - regardless of which language they are written in
+- the most common way to use Dagger Functions is via the Dagger CLI.
+- Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.
+:::
+
+---
+
+```go
+package main
+
+import (
+	"context"
+	"dagger/my-module/internal/dagger"
+)
+
+type MyModule struct{}
+
+func (m *MyModule) Build(
+	ctx context.Context,
+	src *dagger.Directory,
+	arch string,
+	os string,
+) *dagger.Container {
+	return dag.Container().
+		From("golang:1.21").
+		WithMountedDirectory("/src", src).
+		WithWorkdir("/src").
+		WithEnvVariable("GOARCH", arch).
+		WithEnvVariable("GOOS", os).
+		WithEnvVariable("CGO_ENABLED", "0").
+		WithExec([]string{"go", "build", "-o", "build/"})
+}
+```
+::: {.notes}
+- lint the code
+- run units tests
+- build containers
+- deploy containers to a registry
+- build helm charts
+- deploy helm helm charts
+- test the charts deployment to a local kubernetes cluster
+:::
+
+---
+
+```typescript
+import { dag, object, Directory, Container, func } from "@dagger.io/dagger"
+
+@object()
+class MyModule {
+  @func()
+  build(src: Directory, arch: string, os: string): Container {
+    return dag
+      .container()
+      .from("golang:1.21")
+      .withMountedDirectory("/src", src)
+      .withWorkdir("/src")
+      .withEnvVariable("GOARCH", arch)
+      .withEnvVariable("GOOS", os)
+      .withEnvVariable("CGO_ENABLED", "0")
+      .withExec(["go", "build", "-o", "build/"])
+  }
+}
+```
+---
+
+```python
+import dagger
+from dagger import dag, function, object_type
+
+
+@object_type
+class MyModule:
+    @function
+    def build(self, src: dagger.Directory, arch: str, os: str) -> dagger.Container:
+        return (
+            dag.container()
+            .from_("golang:1.21")
+            .with_mounted_directory("/src", src)
+            .with_workdir("/src")
+            .with_env_variable("GOARCH", arch)
+            .with_env_variable("GOOS", os)
+            .with_env_variable("CGO_ENABLED", "0")
+            .with_exec(["go", "build", "-o", "build/"])
+        )
+```
+---
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace DaggerModule;
+
+use Dagger\Attribute\{DaggerFunction, DaggerObject};
+use Dagger\{Container, Directory};
+
+use function Dagger\dag;
+
+#[DaggerObject]
+class MyModule
+{
+    #[DaggerFunction]
+    public function build(
+        Directory $src,
+        string $arch,
+        string $os,
+    ): Container {
+        return dag()
+            ->container()
+            ->from('golang:1.21')
+            ->withMountedDirectory('/src', $src)
+            ->withWorkdir('/src')
+            ->withEnvVariable('GOARCH', $arch)
+            ->withEnvVariable('GOOS', $os)
+            ->withEnvVariable('CGO_ENABLED', '0')
+            ->withExec(['go', 'build', '-o', 'build/']);
+    }
+}
+```
+---
+
+```java
+package io.dagger.modules.mymodule;
+
+import static io.dagger.client.Dagger.dag;
+
+import io.dagger.client.Container;
+import io.dagger.client.Directory;
+import io.dagger.module.annotation.Function;
+import io.dagger.module.annotation.Object;
+import java.util.List;
+
+@Object
+public class MyModule {
+  @Function
+  public Container build(Directory src, String arch, String os) {
+    return dag().container()
+        .from("golang:1.21")
+        .withMountedDirectory("/src", src)
+        .withWorkdir("/src")
+        .withEnvVariable("GOARCH", arch)
+        .withEnvVariable("GOOS", os)
+        .withEnvVariable("CGO_ENABLED", "0")
+        .withExec(List.of("go", "build", "-o", "build/"));
+  }
+}
+```
+
+---
+
+```{.java code-line-numbers="|6"}
+pipeline { agent { label 'dagger' }
+  stages {
+    stage("dagger") {
+      steps {
+        sh '''
+            dagger call build
+        '''
+      }
+    }
+  }
+}
+```
+
+---
+
+```{.yaml code-line-numbers="|12"}
+name: CI
+on:
+ push:
+   branches: [main]
+
+jobs:
+ dagger:
+   name: dagger
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4
+     - run: dagger call build
+```
+
+# LLM integration
+
+---
+
+![](./assets/llm-env.svg)
+
+::: {.notes}
+A key feature of Dagger's LLM integration is out-of-the-box support
+for tool use using Dagger Functions:
+an LLM can automatically discover and use any available
+Dagger Functions in the provided environment.
+:::
+
+---
+
+```bash
+base=$(container | from alpine)
+env=$(env | with-container-input 'base' $base 'a base container' | with-container-output 'python-dev' 'a container with python dev tools')
+llm | with-env $env | with-prompt "You have an alpine container. Install tools to develop with Python." | env | output python-dev | as-container | terminal
+```
+
+# Obrigado!
+
+## You can check out the demo source code @
+
+[github.com/NunoFrRibeiro/devops-porto-nov](https://github.com/NunoFrRibeiro/devops-porto-nov)
+
+<br>
+
+[@diasapensar](https://x.com/diasapensar)
+
+[@diasapensar.bsky.social](https://bsky.app/profile/diasapensar.bsky.social)
+
+[In/nunofrribeiro](https://www.linkedin.com/in/nunofrribeiro)
+
+[github/NunoFrRibeiro](https://github.com/NunoFrRibeiro)
+
+[https://blog.nfribeiro.com](https://blog.nfribeiro.com)
+
+<br>
+
+Join Discord!
+dagger.io
+
+Try the Quickstart!
+docs.dagger.io 
+
+

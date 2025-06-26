@@ -1,19 +1,20 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
   "packages": [
-    "quarto@1.5.56",
+    "go@1.23.0",
     "netlify-cli@12.2.4",
-    "github:dagger/nix/818205c13580978e1637089c0fd9c8ef9f773899#packages.x86_64-linux.dagger",
+    "github:dagger/nix/fabaafc87072c43477bb1cb7469fb718fb704495#packages.x86_64-linux.dagger",
+    "quarto@1.7.30",
   ],
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
+      "echo 'Welcome to devbox!' > /dev/null",
     ],
     "scripts": {
       "versions": [
         "quarto --version",
-        "netlify version"
-      ]
-    }
-  }
+        "netlify version",
+      ],
+    },
+  },
 }

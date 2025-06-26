@@ -15,8 +15,6 @@ title-block-banner: true
 format:
   html:
     theme: darkly
-    # template-partials:
-    #     - resources/templates/html/title-block.html
 ---
 
 These are [my](https://github.com/NunoFrRibeiro) personal slides decks for presentations.
