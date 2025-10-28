@@ -1,0 +1,524 @@
+---
+title: "⚙️ Unblock Your PRs: AI-Powered CI Troubleshooting with Dagger"
+date: "01/11/2025"
+event: "DevOpsDays Istanbul 2025"
+eventUrl: https://devopsdays.istanbul/
+description: |
+  Failing CI checks are a major bottleneck, frustrating developers and delaying delivery.
+  Imagine a CI pipeline that doesn’t just report errors but actively helps resolve them.
+  This session introduces a new approach: leveraging Dagger to build and integrate AI-powered troubleshooting agents into CI/CD
+categories: [cicd, dagger, DevOps Port]
+format:
+  revealjs:
+    css: styles.css
+    navigation-mode: vertical
+    slideNumber: true
+    title-slide-no-content: true
+    width: 1050
+    height: 590
+---
+# Hello there
+
+::: {.r-stack}
+
+:::: {.columns}
+
+::: {.column width="75%"}
+
+__*Nuno Ribeiro*__
+
+<br>
+
+Structural Civil Engineer over the last decade
+
+<br>
+
+DevOps Engineer @ [Critical TechWorks](https://www.criticaltechworks.com/)
+
+<br>
+
+2024 Dagger Commanders Batch
+
+:::
+
+::: {.column width="25%"}
+
+![](./assets/badge.jpeg){.top}
+
+:::
+
+::::
+
+:::
+
+# ⚙️ Unblock Your PRs: AI-Powered CI Troubleshooting with Dagger
+
+## For today
+
+  - Common problems with Dev/CI environments
+  - Have you heard about Dagger?
+  - LLM Integration
+  - Demo
+
+::: {.notes}
+- two services that run on separate environments
+:::
+
+# Common problems with Dev/CI environments
+## Ready to commit that code?
+
+::: {.r-stack}
+:::: {.columns}
+
+::: {.column width="40%"}
+How it starts 👉
+:::
+
+::: {.column width="60%"}
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+      - name: Install dependencies
+        run: go get .
+      - name: Build
+        run: go build -v ./...
+      - name: Test with the Go CLI
+        run: go test
+```
+
+![](./assets/all-green.jpg){.fragment}
+:::
+
+::::
+
+:::
+
+## 40 days of code commits
+
+:::: {.columns}
+
+::: {.column width="60%"}
+Developer
+Environment 👉
+:::
+
+::: {.column width="40%"}
+
+```bash
+brew install go
+brew install
+golangci-lint
+just lint
+task test
+make build
+awesome-does-it-all-script.sh
+docker compose dev
+```
+
+:::
+
+::::
+
+
+## 365 days of code commits later
+
+
+::: {.r-stack}
+```yaml
+ # Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    variables:
+      - $SCRATCH_DISABLED
+      - $TEST_DISABLED
+  only:
+    variables:
+      - $FORCE_DEVELOP_RUN
+      - $FORCE_MASTER_RUN
+      - $FORCE_VALIDATE_MASTER
+      - $FORCE_RUN
+      - $FORCE_DEPLOY
+      - $CI_COMMIT_REF_NAME == 'test-integration'
+      - $CI_COMMIT_REF_NAME == 'develop'
+      - $CI_COMMIT_REF_NAME == 'master'
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  allow_failure: false
+  script:
+    - build_diff_files
+  artifacts:
+    paths:
+      - deploySource
+      - deploy
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+# Merges release-branch to develop
+####################################################
+integration-vp-to-develop:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'release/uat'
+  script:
+    - merge_branches origin/release/uat develop
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Merges release-branch to develop
+####################################################
+integration-develop-to-test:
+  stage: integration
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == 'develop'
+  script:
+    - merge_branches origin/develop test-integration
+  environment:
+    name: foobarproject/$CI_COMMIT_REF_SLUG
+
+####################################################
+# Deploys the source Package
+####################################################
+deploy-package:
+  stage: deploy-package
+  script:
+    - authenticate $FOOBAR_USERNAME $CLIENT_ID "ORG" $LOGIN_URL
+    - deploy_baz $FOOBAR_USERNAME "60"
+  rules:
+    - if: '$DEPLOY_DISABLED == "1"'
+      when: never
+    - if: '$TEST_DISABLED == "1"'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "test-integration"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "develop"'
+      when: on_success
+    - if: '$CI_COMMIT_REF_NAME == "release/uat"'
+      when: on_success
+    - if: '$FORCE_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEVELOP_RUN == "1"'
+      when: on_success
+    - if: '$FORCE_DEPLOY == "1"'
+      when: on_success
+
+####################################################
+
+```
+
+![](./assets/all-red.jpg){.fragment}
+:::
+# Have you heard about {background-color="black"}
+
+::: {.r-stack}
+![](./assets/dagger.avif)
+:::
+
+---
+
+<h3>What is Dagger?</h3>
+
+::: {.fragment .fade-up}
+<h3>Dagger is an open-source runtime for composable workflows</h3>
+:::
+
+::: {.fragment .fade-up}
+<h3>It runs your application delivery pipelines in containers</h3>
+:::
+
+::: {.notes}
+- a daggerized pipeline runs the same wether locally or on your CI provider
+- Encapsulate all your project's tasks and workflows into Functions, written in your programming language of choice.
+- Run your Functions from the command line, your language interpreter, or a custom HTTP client.
+- Package your Functions into a module, to reuse next project or share with the community on Daggerverse.
+:::
+
+## {#dagger-platform background-color="black" background-image="assets/Dagger-platform.avif" background-size="99%" background-transition="fade"}
+
+::: {.notes}
+- The Daggerverse is a service run by Dagger
+- Search for existing modules, and import them into yours
+- modules can reuse each other's Functions - regardless of which language they are written in
+- the most common way to use Dagger Functions is via the Dagger CLI.
+- Dagger Cloud complements Dagger Functions with a control plane that includes pipeline visualization, operational insights, and distributed caching.
+:::
+
+---
+
+```go
+package main
+
+import (
+	"context"
+	"dagger/my-module/internal/dagger"
+)
+
+type MyModule struct{}
+
+func (m *MyModule) Build(
+	ctx context.Context,
+	src *dagger.Directory,
+	arch string,
+	os string,
+) *dagger.Container {
+	return dag.Container().
+		From("golang:1.21").
+		WithMountedDirectory("/src", src).
+		WithWorkdir("/src").
+		WithEnvVariable("GOARCH", arch).
+		WithEnvVariable("GOOS", os).
+		WithEnvVariable("CGO_ENABLED", "0").
+		WithExec([]string{"go", "build", "-o", "build/"})
+}
+```
+::: {.notes}
+- lint the code
+- run units tests
+- build containers
+- deploy containers to a registry
+- build helm charts
+- deploy helm helm charts
+- test the charts deployment to a local kubernetes cluster
+:::
+
+---
+
+```typescript
+import { dag, object, Directory, Container, func } from "@dagger.io/dagger"
+
+@object()
+class MyModule {
+  @func()
+  build(src: Directory, arch: string, os: string): Container {
+    return dag
+      .container()
+      .from("golang:1.21")
+      .withMountedDirectory("/src", src)
+      .withWorkdir("/src")
+      .withEnvVariable("GOARCH", arch)
+      .withEnvVariable("GOOS", os)
+      .withEnvVariable("CGO_ENABLED", "0")
+      .withExec(["go", "build", "-o", "build/"])
+  }
+}
+```
+---
+
+```python
+import dagger
+from dagger import dag, function, object_type
+
+
+@object_type
+class MyModule:
+    @function
+    def build(self, src: dagger.Directory, arch: str, os: str) -> dagger.Container:
+        return (
+            dag.container()
+            .from_("golang:1.21")
+            .with_mounted_directory("/src", src)
+            .with_workdir("/src")
+            .with_env_variable("GOARCH", arch)
+            .with_env_variable("GOOS", os)
+            .with_env_variable("CGO_ENABLED", "0")
+            .with_exec(["go", "build", "-o", "build/"])
+        )
+```
+---
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace DaggerModule;
+
+use Dagger\Attribute\{DaggerFunction, DaggerObject};
+use Dagger\{Container, Directory};
+
+use function Dagger\dag;
+
+#[DaggerObject]
+class MyModule
+{
+    #[DaggerFunction]
+    public function build(
+        Directory $src,
+        string $arch,
+        string $os,
+    ): Container {
+        return dag()
+            ->container()
+            ->from('golang:1.21')
+            ->withMountedDirectory('/src', $src)
+            ->withWorkdir('/src')
+            ->withEnvVariable('GOARCH', $arch)
+            ->withEnvVariable('GOOS', $os)
+            ->withEnvVariable('CGO_ENABLED', '0')
+            ->withExec(['go', 'build', '-o', 'build/']);
+    }
+}
+```
+---
+
+```java
+package io.dagger.modules.mymodule;
+
+import static io.dagger.client.Dagger.dag;
+
+import io.dagger.client.Container;
+import io.dagger.client.Directory;
+import io.dagger.module.annotation.Function;
+import io.dagger.module.annotation.Object;
+import java.util.List;
+
+@Object
+public class MyModule {
+  @Function
+  public Container build(Directory src, String arch, String os) {
+    return dag().container()
+        .from("golang:1.21")
+        .withMountedDirectory("/src", src)
+        .withWorkdir("/src")
+        .withEnvVariable("GOARCH", arch)
+        .withEnvVariable("GOOS", os)
+        .withEnvVariable("CGO_ENABLED", "0")
+        .withExec(List.of("go", "build", "-o", "build/"));
+  }
+}
+```
+
+---
+
+```bash
+$ dagger call build
+```
+
+---
+
+```{.java code-line-numbers="|6"}
+pipeline { agent { label 'dagger' }
+  stages {
+    stage("dagger") {
+      steps {
+        sh '''
+            dagger call build
+        '''
+      }
+    }
+  }
+}
+```
+
+---
+
+```{.yaml code-line-numbers="|21"}
+name: CI
+on:
+ push:
+   branches: [main]
+
+env:
+  DAGGER_VERSION: 0.19.2
+
+jobs:
+ dagger:
+   name: dagger
+   runs-on: ubuntu-latest
+   steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run build
+        uses: dagger/dagger-for-github@8.0.0
+        with:
+          verb: call
+          args: build
+          cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+          version: ${{ env.DAGGER_VERSION }}
+```
+
+# LLM integration
+
+---
+
+![](./assets/llm-env.svg)
+
+::: {.notes}
+A key feature of Dagger's LLM integration is out-of-the-box support
+for tool use using Dagger Functions:
+an LLM can automatically discover and use any available
+Dagger Functions in the provided environment.
+:::
+
+---
+
+```bash
+base=$(container | from alpine)
+env=$(env | with-container-input 'base' $base 'a base container' | with-container-output 'python-dev' 'a container with python dev tools')
+llm | with-env $env | with-prompt "You have an alpine container. Install tools to develop with Python." | env | output python-dev | as-container | terminal
+```
+
+# Obrigado!
+
+## You can check out the demo source code @
+
+[github.com/NunoFrRibeiro/kcd-porto-2025](https://github.com/NunoFrRibeiro/kcd-porto-2025)
+
+<br>
+
+[@diasapensar](https://x.com/diasapensar)
+
+[@diasapensar.bsky.social](https://bsky.app/profile/diasapensar.bsky.social)
+
+[In/nunofrribeiro](https://www.linkedin.com/in/nunofrribeiro)
+
+[github/NunoFrRibeiro](https://github.com/NunoFrRibeiro)
+
+<br>
+
+Join Discord!
+dagger.io
+
+Try the Quickstart!
+docs.dagger.io 
+
+
